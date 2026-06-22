@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Newbe — Design System v5.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
+/* ══════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════ */
+:root {
+  --font-title:'Quicksand',sans-serif;
+  --font-body:'Montserrat',sans-serif;
+  --fw-light:300;--fw-regular:400;--fw-medium:500;--fw-semibold:600;--fw-bold:700;
+
+  --neutro-100:#FFFFFF;--neutro-200:#F0F0F0;--neutro-300:#D9D9D9;
+  --neutro-400:#BFBFBF;--neutro-500:#8C8C8C;--neutro-600:#595959;
+  --neutro-700:#404040;--neutro-800:#1A1A1A;
+
+  --primary-100:#FFE4EE;--primary-200:#FFB3CF;--primary-300:#FF80AF;--primary-400:#FF4D90;
+  --primary-500:#E91E63;--primary-600:#C2185B;--primary-700:#880E4F;--primary-800:#560027;
+
+  --secondary-100:#FFF0E6;--secondary-200:#FFCBA3;--secondary-300:#FFA066;--secondary-400:#FF7733;
+  --secondary-500:#F04E00;--secondary-600:#BF3D00;--secondary-700:#8F2D00;--secondary-800:#601E00;
+
+  --info-100:#E3F2FD;--info-200:#BBDEFB;--info-300:#64B5F6;--info-400:#2196F3;
+  --info-500:#1565C0;--info-600:#0D47A1;--info-700:#0A3272;--info-800:#071F4A;
+
+  --success-100:#E8F5E9;--success-200:#C8E6C9;--success-300:#81C784;--success-400:#4CAF50;
+  --success-500:#00E676;--success-600:#2E7D32;--success-700:#1B5E20;--success-800:#0A3D13;
+
+  --warning-100:#FFFDE7;--warning-200:#FFF9C4;--warning-300:#FFF176;--warning-400:#FFEE58;
+  --warning-500:#FFEB3B;--warning-600:#F9A825;--warning-700:#9E6600;--warning-800:#5C3D00;
+
+  --error-100:#FFEBEE;--error-200:#FFCDD2;--error-300:#EF9A9A;--error-400:#EF5350;
+  --error-500:#F44336;--error-600:#C62828;--error-700:#8B0000;--error-800:#560000;
+
+  --alt1-100:#E0F7F4;--alt1-200:#B2EBE8;--alt1-300:#4ECDC4;--alt1-400:#00BFA5;
+  --alt1-500:#00897B;--alt1-600:#00695C;--alt1-700:#004D40;--alt1-800:#003330;
+
+  --alt2-100:#E0F9FF;--alt2-200:#B3F0FF;--alt2-300:#6FE7FF;--alt2-400:#00D4E8;
+  --alt2-500:#00ACC1;--alt2-600:#00838F;--alt2-700:#006064;--alt2-800:#003E42;
+
+  --color-primary:var(--primary-500);--color-primary-hover:var(--primary-600);
+  --color-primary-light:var(--primary-100);--color-bg:#F5F5F5;
+  --color-surface:var(--neutro-100);--color-border:var(--neutro-300);
+  --color-divider:var(--neutro-200);--color-text-primary:var(--neutro-800);
+  --color-text-secondary:var(--neutro-600);--color-text-muted:var(--neutro-500);
+  --color-text-disabled:var(--neutro-400);--color-text-link:var(--primary-500);
+
+  --shadow-card:0 1px 4px rgba(0,0,0,.08);--shadow-modal:0 8px 32px rgba(0,0,0,.18);
+  --shadow-panel:0 2px 8px rgba(0,0,0,.10);--shadow-btn:0 2px 6px rgba(233,30,99,.25);
+
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;
+  --space-6:24px;--space-8:32px;--space-10:40px;--space-12:48px;--space-16:64px;
+
+  --radius-xs:4px;--radius-sm:6px;--radius-md:8px;--radius-lg:12px;
+  --radius-xl:16px;--radius-pill:999px;
+
+  --nav-height:56px;--panel-width:240px;
+  --btn-h-lg:44px;--btn-h-md:36px;--btn-h-sm:28px;
+  --input-height:36px;
+}
+
+/* ══ RESET ══ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-body);font-size:13px;color:var(--color-text-primary);background:var(--color-bg);line-height:1.5;}
+a{color:var(--color-text-link);text-decoration:none;}
+h1,h2,h3,h4,h5,h6{font-family:var(--font-title);}
+
+/* ══ SHELL ══ */
+.topbar{position:sticky;top:0;z-index:300;display:flex;align-items:center;gap:14px;height:54px;padding:0 24px;background:#fff;border-bottom:1px solid var(--color-border);box-shadow:var(--shadow-card);}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--font-title);font-weight:700;font-size:17px;}
+.brand-dot{width:10px;height:10px;border-radius:50%;background:var(--primary-500);}
+.version-pill{font-size:10px;background:var(--primary-100);color:var(--primary-600);padding:2px 8px;border-radius:999px;font-weight:700;font-family:var(--font-body);}
+.topbar-desc{font-size:11.5px;color:var(--color-text-muted);font-family:var(--font-body);}
+.topbar-tags{margin-left:auto;display:flex;gap:6px;}
+.topbar-tag{font-size:10px;font-weight:600;font-family:var(--font-body);background:var(--neutro-200);color:var(--neutro-600);padding:2px 8px;border-radius:999px;}
+
+.ds-wrap{display:flex;min-height:calc(100vh - 54px);}
+
+/* ══ SIDEBAR ══ */
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;background:#fff;border-right:1px solid var(--color-border);padding:12px 0;scrollbar-width:thin;scrollbar-color:var(--neutro-300) transparent;}
+.sidebar-group{padding:10px 16px 3px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--color-text-muted);font-family:var(--font-body);}
+.sidebar a{display:flex;align-items:center;gap:8px;padding:5px 14px 5px 18px;font-size:11.5px;font-family:var(--font-body);color:var(--color-text-secondary);border-left:2px solid transparent;transition:all .12s;text-decoration:none;}
+.sidebar a i{width:12px;text-align:center;font-size:10px;color:var(--color-text-muted);}
+.sidebar a:hover,.sidebar a.active{color:var(--primary-500);background:var(--primary-100);border-left-color:var(--primary-500);}
+.sidebar a:hover i,.sidebar a.active i{color:var(--primary-400);}
+
+/* ══ MAIN ══ */
+.main{flex:1;padding:36px 44px;max-width:1040px;min-width:0;}
+
+/* ══ SECTIONS ══ */
+.section{margin-bottom:64px;scroll-margin-top:68px;}
+.section-eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary-400);font-family:var(--font-body);margin-bottom:4px;}
+.section-title{font-family:var(--font-title);font-size:22px;font-weight:700;color:var(--color-text-primary);margin-bottom:4px;}
+.section-rule{height:2.5px;background:linear-gradient(90deg,var(--primary-500),transparent);width:64px;border-radius:2px;margin-bottom:14px;}
+.section-desc{color:var(--color-text-secondary);font-size:12.5px;margin-bottom:24px;line-height:1.7;max-width:680px;}
+.subsection{margin-bottom:28px;}
+.subsection-title{font-family:var(--font-title);font-size:13px;font-weight:700;color:var(--color-text-primary);margin-bottom:12px;padding-left:10px;border-left:3px solid var(--primary-400);}
+.sub-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-muted);margin-bottom:8px;font-family:var(--font-body);}
+
+/* ══ CARDS / LAYOUT ══ */
+.card{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--color-border);padding:22px;box-shadow:var(--shadow-card);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;}
+.row-c{align-items:center;}
+.divider{height:1px;background:var(--color-divider);margin:16px 0;}
+.note{background:var(--info-100);border-left:3px solid var(--info-400);padding:9px 13px;border-radius:0 var(--radius-md) var(--radius-md) 0;font-size:11.5px;color:var(--neutro-700);font-family:var(--font-body);margin-bottom:14px;line-height:1.55;}
+.warn{background:var(--warning-100);border-left:3px solid var(--warning-600);padding:9px 13px;border-radius:0 var(--radius-md) var(--radius-md) 0;font-size:11.5px;color:var(--warning-700);font-family:var(--font-body);margin-bottom:14px;}
+code{font-family:'Courier New',monospace;font-size:11px;background:var(--neutro-200);padding:1px 5px;border-radius:3px;color:var(--primary-600);}
+
+/* ══ DATA TABLES (docs) ══ */
+.tbl{width:100%;border-collapse:collapse;font-size:12px;font-family:var(--font-body);}
+.tbl th{text-align:left;padding:7px 12px;background:var(--color-divider);color:var(--color-text-secondary);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--color-divider);vertical-align:middle;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl code{font-size:10.5px;}
+
+/* ══════════════════════════════════════
+   PALETA
+══════════════════════════════════════ */
+.palette-group{margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.pal-name{font-size:11px;font-weight:700;color:var(--color-text-secondary);width:110px;flex-shrink:0;font-family:var(--font-body);}
+.swatch{flex:1;height:42px;border-radius:6px;border:1px solid rgba(0,0,0,.07);position:relative;cursor:default;transition:transform .12s;}
+.swatch:hover{transform:scale(1.08);z-index:2;}
+.swatch-tip{display:none;position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:10px;padding:3px 7px;border-radius:4px;white-space:nowrap;z-index:10;font-family:var(--font-body);}
+.swatch:hover .swatch-tip{display:block;}
+.swatch.base-mark{box-shadow:0 0 0 2.5px #fff,0 0 0 4.5px var(--primary-500);}
+
+/* ══════════════════════════════════════
+   TIPOGRAFIA
+══════════════════════════════════════ */
+.type-row{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:10px 14px;background:#fff;border:1px solid var(--color-border);border-radius:6px;margin-bottom:5px;}
+.type-meta{font-size:11px;color:var(--color-text-muted);white-space:nowrap;flex-shrink:0;font-family:var(--font-body);}
+
+/* ══════════════════════════════════════
+   ESPAÇAMENTO
+══════════════════════════════════════ */
+.space-row{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+.space-bar{height:14px;background:var(--primary-400);border-radius:3px;opacity:.7;flex-shrink:0;}
+
+/* ══════════════════════════════════════
+   BORDER RADIUS
+══════════════════════════════════════ */
+.radius-demo{display:flex;gap:20px;align-items:flex-end;flex-wrap:wrap;}
+.radius-item{text-align:center;}
+.radius-box{background:var(--primary-100);border:2px solid var(--primary-300);margin:0 auto 6px;}
+.radius-label{font-size:10px;font-weight:700;color:var(--color-text-muted);font-family:var(--font-body);}
+.radius-desc{font-size:10px;color:var(--color-text-muted);font-family:var(--font-body);}
+
+/* ══════════════════════════════════════
+   BOTÕES
+══════════════════════════════════════ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;cursor:pointer;font-family:var(--font-body);font-weight:600;border-radius:var(--radius-sm);transition:all .15s;white-space:nowrap;line-height:1;}
+.btn i{font-size:.9em;}
+.btn-lg{height:44px;padding:0 24px;font-size:14px;}
+.btn-md{height:36px;padding:0 16px;font-size:12.5px;}
+.btn-sm{height:28px;padding:0 12px;font-size:11.5px;}
+.btn-primary{background:var(--primary-500);color:#fff;box-shadow:var(--shadow-btn);}
+.btn-primary:hover{background:var(--primary-600);}
+.btn-dark{background:var(--neutro-800);color:#fff;}
+.btn-dark:hover{background:var(--neutro-700);}
+.btn-outline-primary{background:transparent;color:var(--primary-500);border:1.5px solid var(--primary-500);}
+.btn-outline-primary:hover{background:var(--primary-100);}
+.btn-outline{background:#fff;color:var(--neutro-800);border:1.5px solid var(--neutro-400);}
+.btn-outline:hover{border-color:var(--neutro-600);}
+.btn-ghost{background:transparent;color:var(--neutro-700);}
+.btn-ghost:hover{background:var(--neutro-200);}
+.btn-disabled-filled{background:var(--neutro-300);color:var(--neutro-100);cursor:not-allowed;pointer-events:none;}
+.btn-disabled-outline{background:transparent;color:var(--neutro-400);border:1.5px solid var(--neutro-300);cursor:not-allowed;pointer-events:none;}
+.btn-danger{background:var(--error-500);color:#fff;}
+.btn-danger:hover{background:var(--error-600);}
+.btn-caret::after{content:'\f078';font-family:'Font Awesome 6 Free';font-weight:900;font-size:9px;margin-left:2px;opacity:.8;}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px;}
+.btn-size-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-muted);width:28px;flex-shrink:0;font-family:var(--font-body);}
+
+/* ══════════════════════════════════════
+   BADGES
+══════════════════════════════════════ */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 12px;border-radius:999px;font-size:12px;font-weight:600;font-family:var(--font-body);white-space:nowrap;line-height:1.4;border:1px solid transparent;}
+.badge-dropdown::after{content:'\f078';font-family:'Font Awesome 6 Free';font-weight:900;font-size:9px;margin-left:4px;opacity:.7;}
+.badge-ativo{background:#E8F5E9;border-color:#A5D6A7;color:#2E7D32;}
+.badge-inativo{background:#EEEEEE;border-color:#BDBDBD;color:#424242;}
+.badge-liberado{background:#E8F5E9;border-color:#A5D6A7;color:#2E7D32;}
+.badge-liberado-parcial{background:#F1F8E9;border-color:#C5E1A5;color:#558B2F;}
+.badge-processando{background:#FFF8E1;border-color:#FFCC80;color:#E65100;}
+.badge-pago{background:#E1F5FE;border-color:#81D4FA;color:#01579B;}
+.badge-pago-cc{background:#E3F2FD;border-color:#90CAF9;color:#1565C0;}
+.badge-a-confirmar{background:#F5F5F5;border-color:#E0E0E0;color:#616161;}
+.badge-excluido{background:#1A1A1A;border-color:#1A1A1A;color:#FFFFFF;}
+.badge-cancelado{background:#FFEBEE;border-color:#EF9A9A;color:#C62828;}
+.badge-pendente{background:#F5F5F5;border-color:#E0E0E0;color:#757575;}
+.badge-disponivel{background:#E8F5E9;border-color:#A5D6A7;color:#2E7D32;}
+.badge-financeiro{background:#FFF3E0;border-color:#FFCC80;color:#E65100;}
+.badge-inconsistencia{background:#FFEBEE;border-color:#EF9A9A;color:#C62828;}
+.badge-aberto{background:#E8F5E9;border-color:#A5D6A7;color:#2E7D32;}
+.badge-em-analise{background:#FFF8E1;border-color:#FFCC80;color:#E65100;}
+.badge-fechado{background:#EEEEEE;border-color:#BDBDBD;color:#424242;}
+.badge-pre-cadastrado{background:#F5F5F5;border-color:#E0E0E0;color:#757575;}
+.badge-cadastrado{background:#EEEEEE;border-color:#BDBDBD;color:#616161;}
+.badge-cross-sell{background:#E0F2F1;border-color:#80CBC4;color:#00695C;}
+.badge-prospeccao{background:#E3F2FD;border-color:#90CAF9;color:#1565C0;}
+.badge-negociacao{background:#F3E5F5;border-color:#CE93D8;color:#6A1B9A;}
+.badge-negociacao-hot{background:#FCE4EC;border-color:#F48FB1;color:#880E4F;}
+.badge-cliente-fechado{background:#E8F5E9;border-color:#A5D6A7;color:#2E7D32;}
+.badge-nao-convertido{background:#FFEBEE;border-color:#EF9A9A;color:#C62828;}
+.sla-counter{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 6px;border-radius:999px;font-size:11px;font-weight:700;font-family:var(--font-body);color:#fff;}
+.sla-counter.low{background:#4CAF50;}.sla-counter.medium{background:#F9A825;}.sla-counter.high{background:#EF5350;}
+.badge-group{display:flex;flex-wrap:wrap;gap:6px;padding:14px;background:#FAFAFA;border-radius:var(--radius-md);border:1px solid var(--color-divider);margin-bottom:8px;}
+.ctx-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-muted);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--color-divider);font-family:var(--font-body);}
+
+/* ══════════════════════════════════════
+   INPUTS
+══════════════════════════════════════ */
+.field{display:flex;flex-direction:column;gap:4px;}
+.field-label{font-size:12px;font-weight:500;color:var(--color-text-secondary);font-family:var(--font-body);}
+.field-support{font-size:11px;color:var(--color-text-muted);margin-top:2px;font-family:var(--font-body);}
+.field-support.success{color:var(--success-600);}
+.field-support.error{color:var(--error-500);}
+.input{width:100%;height:36px;padding:0 12px;border:1.5px solid var(--neutro-300);border-radius:var(--radius-md);font-size:12px;font-family:var(--font-body);color:var(--color-text-primary);background:#fff;transition:all .15s;outline:none;}
+.input::placeholder{color:var(--neutro-400);}
+.input:focus{border-color:var(--primary-400);box-shadow:0 0 0 3px rgba(233,30,99,.10);}
+.input.success{border-color:var(--success-400);box-shadow:0 0 0 3px rgba(76,175,80,.12);}
+.input.error{border-color:var(--error-400);box-shadow:0 0 0 3px rgba(244,67,54,.10);}
+.input:disabled{background:var(--neutro-200);color:var(--neutro-400);cursor:not-allowed;}
+.input-wrap{position:relative;}
+.input-wrap .input{padding-right:36px;}
+.input-icon{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--neutro-400);pointer-events:none;font-size:13px;}
+.input-wrap.success .input-icon{color:var(--success-400);}
+.input-wrap.error .input-icon{color:var(--error-400);}
+
+/* ══════════════════════════════════════
+   CHECKBOX / RADIO
+══════════════════════════════════════ */
+.ctrl-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.ctrl-lbl{font-size:13px;color:var(--color-text-primary);font-family:var(--font-body);}
+.ctrl-lbl.off{color:var(--neutro-400);}
+.checkbox{appearance:none;-webkit-appearance:none;border:1.5px solid var(--neutro-400);border-radius:3px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+.checkbox.lg{width:20px;height:20px;}.checkbox.md{width:16px;height:16px;}.checkbox.sm{width:13px;height:13px;}
+.checkbox:checked{background:var(--primary-500);border-color:var(--primary-500);}
+.checkbox:checked::after{content:'';display:block;width:35%;height:60%;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(45deg) translateY(-10%);}
+.checkbox:disabled{background:var(--neutro-200);border-color:var(--neutro-300);cursor:not-allowed;}
+.checkbox:disabled:checked{background:var(--neutro-300);}
+.radio{appearance:none;-webkit-appearance:none;border:1.5px solid var(--neutro-400);border-radius:50%;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+.radio.lg{width:20px;height:20px;}.radio.md{width:16px;height:16px;}.radio.sm{width:13px;height:13px;}
+.radio:checked{border-color:var(--primary-500);}
+.radio:checked::after{content:'';display:block;border-radius:50%;background:var(--primary-500);width:50%;height:50%;}
+.radio:disabled{background:var(--neutro-200);border-color:var(--neutro-300);cursor:not-allowed;}
+.radio:disabled:checked::after{background:var(--neutro-400);}
+
+/* ══════════════════════════════════════
+   TOGGLE
+══════════════════════════════════════ */
+.toggle{position:relative;display:inline-block;cursor:pointer;}
+.toggle.lg{width:44px;height:24px;}.toggle.sm{width:36px;height:20px;}
+.toggle input{opacity:0;width:0;height:0;position:absolute;}
+.toggle-track{position:absolute;inset:0;background:var(--neutro-300);border-radius:999px;transition:background .2s;}
+.toggle-thumb{position:absolute;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s;}
+.toggle.lg .toggle-thumb{width:18px;height:18px;top:3px;left:3px;}
+.toggle.sm .toggle-thumb{width:14px;height:14px;top:3px;left:3px;}
+.toggle.on .toggle-track{background:var(--primary-500);}
+.toggle.lg.on .toggle-thumb{transform:translateX(20px);}
+.toggle.sm.on .toggle-thumb{transform:translateX(16px);}
+.toggle.disabled{cursor:not-allowed;}.toggle.disabled.on .toggle-track{background:var(--neutro-400);}
+.toggle-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+
+/* ══════════════════════════════════════
+   TABS (código real Angular)
+══════════════════════════════════════ */
+.tabs-container{width:100%;filter:drop-shadow(0 3px 6px rgba(0,0,0,.16));}
+.tabs-header{display:flex;align-items:flex-end;transform:translateY(1px);}
+.tab-icon{display:flex;align-items:center;justify-content:center;height:21px;width:21px;border-radius:8px;background-color:#999;margin-right:10px;flex-shrink:0;}
+.tab{padding:10px 48px 10px 20px;cursor:pointer;display:flex;align-items:center;user-select:none;}
+.tab-title{font:normal normal bold 18px/22px 'Quicksand';letter-spacing:0;color:#3c3c3c;margin:0;}
+.tab.active-tab{border-top-left-radius:10px;background:#fff;clip-path:polygon(0% 0%,78.3% 0%,79.3% 1%,80.3% 2%,81.3% 4%,82.3% 8%,92% 100%,100% 100%,0% 100%);}
+.tab.active-tab .tab-icon{background-color:var(--primary-500);}
+.tab-content{padding:20px;background-color:#fff;border-radius:0 8px 8px 8px;overflow:auto;}
+.tab-count{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:20px;padding:0 6px;border-radius:999px;font-size:11px;font-weight:700;font-family:var(--font-body);background:var(--neutro-300);color:var(--neutro-600);margin-left:6px;vertical-align:middle;}
+.tab.active-tab .tab-count{background:var(--primary-500);color:#fff;}
+
+/* ══════════════════════════════════════
+   NAVBAR (produto)
+══════════════════════════════════════ */
+.prod-navbar{display:flex;align-items:center;height:56px;background:#fff;border-bottom:1px solid var(--color-border);padding:0 24px;gap:32px;box-shadow:var(--shadow-card);border-radius:var(--radius-md);}
+.prod-navbar-logo{display:flex;align-items:center;gap:6px;font-family:var(--font-title);font-weight:700;font-size:16px;}
+.prod-navbar-logo-icon{width:28px;height:28px;background:var(--secondary-500);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;}
+.prod-navbar-links{display:flex;gap:28px;font-size:13px;color:var(--color-text-secondary);font-family:var(--font-body);}
+.prod-navbar-link-active{color:var(--primary-500);font-weight:600;}
+.prod-navbar-actions{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.prod-navbar-icon{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--color-divider);cursor:pointer;color:var(--neutro-600);font-size:13px;border:none;}
+.prod-navbar-icon:hover{background:var(--neutro-300);}
+.prod-navbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--secondary-400);display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-weight:700;font-size:13px;color:#fff;}
+
+/* ══════════════════════════════════════
+   DATA TABLE
+══════════════════════════════════════ */
+.data-table-wrap{background:#fff;border-radius:var(--radius-md);border:1px solid var(--color-border);overflow:hidden;}
+.data-table{width:100%;border-collapse:collapse;font-size:12.5px;font-family:var(--font-body);}
+.data-table th{text-align:left;padding:9px 14px;background:var(--color-divider);color:var(--color-text-secondary);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-bottom:1.5px solid var(--neutro-300);}
+.data-table td{padding:9px 14px;border-bottom:1px solid var(--color-divider);vertical-align:middle;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:var(--neutro-200);}
+.data-table tr.row-sel td{background:var(--primary-100);}
+.tbl-acts{display:flex;gap:10px;color:var(--neutro-400);}
+.tbl-acts i{cursor:pointer;font-size:13px;transition:color .12s;}
+.tbl-acts i:hover{color:var(--primary-500);}
+.bulk-bar{display:inline-flex;align-items:center;gap:10px;padding:6px 16px;background:var(--primary-100);border:1px solid var(--primary-200);border-radius:999px;font-size:12px;color:var(--primary-600);font-family:var(--font-body);font-weight:500;}
+
+/* ══════════════════════════════════════
+   MODAL
+══════════════════════════════════════ */
+.modal-overlay{position:fixed;inset:0;background:rgba(61,61,61,.6);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:#fff;border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-modal);max-width:480px;width:90%;transform:translateY(12px);transition:transform .2s;}
+.modal-overlay.open .modal{transform:translateY(0);}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.modal-title{font-family:var(--font-title);font-size:14.5px;font-weight:700;}
+.modal-close{width:26px;height:26px;border-radius:50%;background:var(--neutro-200);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--neutro-600);}
+.modal-close:hover{background:var(--neutro-300);}
+.modal-body{font-size:13px;color:var(--color-text-secondary);line-height:1.65;margin-bottom:20px;}
+.modal-ftr{display:flex;justify-content:flex-end;gap:10px;}
+
+/* ══════════════════════════════════════
+   CHAT / CHAMADOS
+══════════════════════════════════════ */
+.chat-demo{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--color-border);padding:16px;display:flex;flex-direction:column;gap:10px;}
+.bubble{max-width:75%;padding:9px 13px;font-size:12.5px;font-family:var(--font-body);line-height:1.5;}
+.bubble.in{background:#fff;border:1px solid var(--neutro-300);border-radius:12px 12px 12px 0;align-self:flex-start;}
+.bubble.out{background:#C8E6C9;border-radius:12px 12px 0 12px;align-self:flex-end;}
+.bubble-time{font-size:10px;color:var(--neutro-500);font-family:var(--font-body);text-align:right;margin-top:3px;}
+.chat-input-bar{display:flex;align-items:center;gap:8px;padding:7px 12px;border:1.5px solid var(--color-border);border-radius:999px;background:#fff;}
+.chat-input-bar input{border:none;outline:none;flex:1;font-size:12px;font-family:var(--font-body);color:var(--color-text-primary);}
+.chat-input-bar input::placeholder{color:var(--neutro-400);}
+.chat-send{width:26px;height:26px;border-radius:50%;background:var(--primary-500);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;}
+
+/* ══════════════════════════════════════
+   SUMMARY CARDS
+══════════════════════════════════════ */
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;}
+.sum-card{background:#fff;border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:16px;box-shadow:var(--shadow-card);}
+.sum-card.hl-pink{border-color:var(--primary-200);background:linear-gradient(135deg,#fff8f9,#fff);}
+.sum-card.hl-green{border-color:var(--success-300);background:linear-gradient(135deg,#f1fff2,#fff);}
+.sc-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-muted);margin-bottom:6px;font-family:var(--font-body);}
+.sc-value{font-family:var(--font-title);font-size:17px;font-weight:700;}
+.sc-sub{font-size:11px;color:var(--color-text-secondary);margin-top:3px;font-family:var(--font-body);}
+
+/* ══════════════════════════════════════
+   AVATAR & BENEFIT PILLS
+══════════════════════════════════════ */
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-weight:700;color:#fff;flex-shrink:0;}
+.av-lg{width:40px;height:40px;font-size:14px;}.av-md{width:34px;height:34px;font-size:13px;}.av-sm{width:28px;height:28px;font-size:10px;}
+.av-stack{display:flex;}
+.av-stack .av{border:2px solid #fff;margin-left:-8px;}
+.av-stack .av:first-child{margin-left:0;}
+.av-more{background:var(--neutro-200);color:var(--neutro-600);font-size:10px;font-family:var(--font-body);font-weight:700;}
+.bp{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;font-family:var(--font-body);}
+.bp-vt{background:#EF5350;}.bp-vr{background:#00BFA5;}.bp-va{background:#2196F3;}.bp-vc{background:#AB47BC;}.bp-cp{background:#FF7733;}
+
+/* ══════════════════════════════════════
+   PAGINAÇÃO
+══════════════════════════════════════ */
+.pagination{display:flex;align-items:center;gap:8px;justify-content:center;padding:12px;}
+.page-dot{width:8px;height:8px;border-radius:50%;background:var(--neutro-300);cursor:pointer;transition:all .14s;}
+.page-dot.on{background:var(--primary-500);width:10px;height:10px;}
+.page-btn{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;border:1.5px solid var(--color-border);cursor:pointer;font-size:12px;color:var(--color-text-secondary);}
+.page-btn:hover{border-color:var(--primary-500);color:var(--primary-500);}
+
+/* ══════════════════════════════════════
+   FAB
+══════════════════════════════════════ */
+.fab-demo{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:var(--warning-600);color:#fff;border-radius:999px;font-size:12.5px;font-weight:600;font-family:var(--font-body);box-shadow:var(--shadow-panel);cursor:pointer;}
+
+/* ══════════════════════════════════════
+   SOMBRAS DEMO
+══════════════════════════════════════ */
+.shadow-demo{background:#fff;padding:20px 26px;border-radius:12px;text-align:center;min-width:130px;}
+.shadow-name{font-size:11px;font-weight:700;color:var(--color-text-muted);font-family:var(--font-body);}
+.shadow-val{font-size:10px;color:var(--color-text-muted);font-family:'Courier New';margin-top:4px;}
+
+/* ══════════════════════════════════════
+   CHART / DASHBOARD COMPONENTES
+══════════════════════════════════════ */
+.kpi-card{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--color-border);padding:18px 20px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:3px;height:100%;}
+.kpi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-muted);font-family:var(--font-body);}
+.kpi-value{font-family:var(--font-title);font-size:26px;font-weight:700;color:var(--color-text-primary);line-height:1.15;}
+.kpi-trend{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;font-family:var(--font-body);margin-top:1px;}
+.kpi-trend.up{color:#2E7D32;}.kpi-trend.down{color:#C62828;}.kpi-trend.flat{color:#8C8C8C;}
+.kpi-icon-row{display:flex;align-items:flex-start;gap:12px;}
+.kpi-icon-wrap{width:42px;height:42px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.kpi-icon-wrap.pink{background:var(--primary-100);color:var(--primary-500);}
+.kpi-icon-wrap.blue{background:var(--info-100);color:var(--info-500);}
+.kpi-icon-wrap.green{background:var(--success-100);color:var(--success-600);}
+.kpi-icon-wrap.amber{background:var(--warning-100);color:var(--warning-700);}
+.kpi-icon-wrap.red{background:var(--error-100);color:var(--error-600);}
+.kpi-icon-wrap.teal{background:var(--alt1-100);color:var(--alt1-500);}
+.kpi-icon-wrap.orange{background:#FFF0E6;color:var(--secondary-500);}
+
+.chart-card{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--color-border);box-shadow:var(--shadow-card);padding:18px 20px;display:flex;flex-direction:column;gap:14px;}
+.chart-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.chart-title{font-family:var(--font-title);font-size:14px;font-weight:700;color:var(--color-text-primary);}
+.chart-subtitle{font-size:11px;color:var(--color-text-muted);font-family:var(--font-body);margin-top:2px;}
+.chart-actions{display:flex;gap:4px;flex-shrink:0;}
+.chart-period-btn{font-size:11px;font-weight:600;font-family:var(--font-body);padding:3px 10px;border-radius:var(--radius-pill);border:1.5px solid var(--color-border);background:transparent;color:var(--color-text-muted);cursor:pointer;transition:all .13s;}
+.chart-period-btn.active,.chart-period-btn:hover{border-color:var(--primary-500);color:var(--primary-500);background:var(--primary-100);}
+.chart-body{position:relative;}
+.chart-footer{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--color-divider);font-size:11px;color:var(--color-text-muted);font-family:var(--font-body);}
+.chart-footer a{font-size:11px;color:var(--primary-500);}
+
+.chart-skeleton{background:linear-gradient(90deg,var(--neutro-200) 25%,var(--neutro-100) 50%,var(--neutro-200) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:var(--radius-md);width:100%;height:100%;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.chart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px;color:var(--color-text-muted);font-family:var(--font-body);}
+.chart-empty i{font-size:28px;opacity:.35;}.chart-empty span{font-size:12px;}
+
+.rank-list{display:flex;flex-direction:column;gap:10px;}
+.rank-item{display:flex;align-items:center;gap:10px;}
+.rank-pos{width:20px;flex-shrink:0;font-size:11px;font-weight:700;color:var(--color-text-muted);font-family:var(--font-body);text-align:center;}
+.rank-pos.first{color:var(--warning-600);}.rank-pos.second{color:var(--neutro-500);}.rank-pos.third{color:var(--secondary-400);}
+.rank-label{flex:1;font-size:12px;font-family:var(--font-body);color:var(--color-text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+.rank-bar-wrap{width:80px;height:6px;background:var(--neutro-200);border-radius:999px;overflow:hidden;flex-shrink:0;}
+.rank-bar{height:100%;background:var(--primary-400);border-radius:999px;}
+.rank-value{font-size:12px;font-weight:600;color:var(--color-text-secondary);font-family:var(--font-body);text-align:right;min-width:70px;flex-shrink:0;}
+
+.goal-item{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+.goal-header{display:flex;justify-content:space-between;font-size:12px;font-family:var(--font-body);}
+.goal-label{color:var(--color-text-primary);font-weight:500;}.goal-values{color:var(--color-text-muted);}
+.goal-track{height:8px;background:var(--neutro-200);border-radius:999px;overflow:hidden;}
+.goal-fill{height:100%;border-radius:999px;transition:width .5s ease;}
+.goal-fill.ok{background:var(--success-400);}.goal-fill.primary{background:var(--primary-500);}
+.goal-fill.warning{background:var(--warning-600);}.goal-fill.danger{background:var(--error-500);}
+
+.activity-feed{display:flex;flex-direction:column;}
+.activity-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--color-divider);}
+.activity-item:last-child{border-bottom:none;}
+.activity-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.activity-dot.success{background:var(--success-400);}.activity-dot.warning{background:var(--warning-600);}
+.activity-dot.error{background:var(--error-500);}.activity-dot.info{background:var(--info-400);}
+.activity-dot.neutral{background:var(--neutro-400);}
+.activity-text{flex:1;font-size:12px;line-height:1.55;color:var(--color-text-secondary);font-family:var(--font-body);}
+.activity-text strong{color:var(--color-text-primary);font-weight:600;}
+.activity-time{font-size:10px;color:var(--color-text-muted);white-space:nowrap;flex-shrink:0;margin-top:2px;font-family:var(--font-body);}
+
+.heatmap{display:flex;flex-direction:column;gap:3px;}
+.hm-labels-row{display:flex;align-items:center;gap:3px;margin-bottom:2px;}
+.hm-corner{width:30px;flex-shrink:0;}
+.hm-col-lbl{flex:1;font-size:9px;font-weight:600;color:var(--color-text-muted);font-family:var(--font-body);text-align:center;}
+.hm-row{display:flex;align-items:center;gap:3px;}
+.hm-row-lbl{width:30px;font-size:10px;font-weight:600;color:var(--color-text-muted);font-family:var(--font-body);text-align:right;flex-shrink:0;}
+.hm-cell{flex:1;height:26px;border-radius:var(--radius-xs);cursor:default;transition:opacity .12s;}
+.hm-cell:hover{opacity:.75;}
+.hm-0{background:var(--neutro-200);}.hm-1{background:var(--primary-100);}
+.hm-2{background:var(--primary-200);}.hm-3{background:var(--primary-400);}.hm-4{background:var(--primary-500);}
+.hm-legend{display:flex;align-items:center;gap:5px;margin-top:8px;font-size:10px;color:var(--color-text-muted);font-family:var(--font-body);}
+.hm-legend div{width:14px;height:14px;border-radius:2px;}
+
+.c-palette{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.c-swatch-item{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.c-swatch-item div{width:40px;height:40px;border-radius:var(--radius-md);border:1px solid rgba(0,0,0,.07);}
+.c-swatch-item span{font-size:9px;font-family:'Courier New';color:var(--color-text-muted);text-align:center;line-height:1.3;}
+.trend-up{color:#2E7D32;font-size:11px;font-weight:600;font-family:var(--font-body);}
+.trend-down{color:#C62828;font-size:11px;font-weight:600;font-family:var(--font-body);}
+</style>
+</head>
+<body>
+
+<!-- ══ TOP BAR ══ -->
+<header class="topbar">
+  <div class="brand"><div class="brand-dot"></div>newbe</div>
+  <span class="version-pill">v5.0</span>
+  <span class="topbar-desc">Design System Completo</span>
+  <div class="topbar-tags">
+    <span class="topbar-tag">Angular 10</span>
+    <span class="topbar-tag">Bootstrap 4</span>
+    <span class="topbar-tag">Chart.js 3</span>
+    <span class="topbar-tag">Font Awesome 6</span>
+  </div>
+</header>
+
+<div class="ds-wrap">
+
+<!-- ══ SIDEBAR ══ -->
+<nav class="sidebar">
+  <div class="sidebar-group">Fundação</div>
+  <a href="#cores"><i class="fa-solid fa-palette"></i>Cores</a>
+  <a href="#tipografia"><i class="fa-solid fa-font"></i>Tipografia</a>
+  <a href="#espacamento"><i class="fa-solid fa-ruler-horizontal"></i>Espaçamento</a>
+  <a href="#radius"><i class="fa-solid fa-vector-square"></i>Border Radius</a>
+  <a href="#sombras"><i class="fa-solid fa-layer-group"></i>Sombras</a>
+  <div class="sidebar-group">Componentes</div>
+  <a href="#navbar"><i class="fa-solid fa-bars"></i>Navbar</a>
+  <a href="#botoes"><i class="fa-solid fa-hand-pointer"></i>Botões</a>
+  <a href="#badges"><i class="fa-solid fa-tag"></i>Badges / Status</a>
+  <a href="#inputs"><i class="fa-solid fa-keyboard"></i>Inputs</a>
+  <a href="#controles"><i class="fa-solid fa-toggle-on"></i>Checkbox · Radio · Toggle</a>
+  <a href="#tabs"><i class="fa-solid fa-table-columns"></i>Tabs</a>
+  <a href="#tabela"><i class="fa-solid fa-table"></i>Tabela de Dados</a>
+  <a href="#modal"><i class="fa-solid fa-window-restore"></i>Modal</a>
+  <a href="#chat"><i class="fa-solid fa-comments"></i>Chat / Chamados</a>
+  <a href="#cards"><i class="fa-solid fa-credit-card"></i>Cards de Resumo</a>
+  <a href="#avatares"><i class="fa-solid fa-user-circle"></i>Avatares & Pills</a>
+  <a href="#paginacao"><i class="fa-solid fa-ellipsis"></i>Paginação & FAB</a>
+  <div class="sidebar-group">Dashboard</div>
+  <a href="#chart-cores"><i class="fa-solid fa-palette"></i>Paleta de Gráficos</a>
+  <a href="#kpi"><i class="fa-solid fa-square-poll-vertical"></i>KPI Cards</a>
+  <a href="#linha"><i class="fa-solid fa-chart-line"></i>Linha / Área</a>
+  <a href="#barras"><i class="fa-solid fa-chart-bar"></i>Barras</a>
+  <a href="#rosca"><i class="fa-solid fa-circle-half-stroke"></i>Rosca</a>
+  <a href="#h-bar"><i class="fa-solid fa-bars"></i>Horizontal / Ranking</a>
+  <a href="#sparkline"><i class="fa-solid fa-wave-square"></i>Sparkline</a>
+  <a href="#padroes-dash"><i class="fa-solid fa-shapes"></i>Metas · Heatmap · Feed</a>
+  <a href="#dash-preview"><i class="fa-solid fa-display"></i>Preview Dashboard</a>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<main class="main">
+
+<!-- ════════════════════════════════════
+     CORES
+════════════════════════════════════ -->
+<section class="section" id="cores">
+  <div class="section-eyebrow">Fundação</div>
+  <h2 class="section-title">Paleta de Cores</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">9 grupos semânticos × 8 tons (100–800). Tom 500 é o valor base de cada grupo, marcado com anel. Passe o mouse sobre qualquer swatch para ver o hex e o token.</p>
+  <div class="card">
+    <div class="palette-group"><span class="pal-name">Neutro</span>
+      <div class="swatch" style="background:#FFF;border-color:#eee"><span class="swatch-tip">--neutro-100 · #FFF</span></div>
+      <div class="swatch" style="background:#F0F0F0"><span class="swatch-tip">--neutro-200 · #F0F0F0</span></div>
+      <div class="swatch" style="background:#D9D9D9"><span class="swatch-tip">--neutro-300 · #D9D9D9</span></div>
+      <div class="swatch" style="background:#BFBFBF"><span class="swatch-tip">--neutro-400 · #BFBFBF</span></div>
+      <div class="swatch" style="background:#8C8C8C"><span class="swatch-tip">--neutro-500 · #8C8C8C</span></div>
+      <div class="swatch" style="background:#595959"><span class="swatch-tip">--neutro-600 · #595959</span></div>
+      <div class="swatch" style="background:#404040"><span class="swatch-tip">--neutro-700 · #404040</span></div>
+      <div class="swatch" style="background:#1A1A1A"><span class="swatch-tip">--neutro-800 · #1A1A1A</span></div>
+    </div>
+    <div class="palette-group"><span class="pal-name">Primário</span>
+      <div class="swatch" style="background:#FFE4EE"><span class="swatch-tip">--primary-100</span></div>
+      <div class="swatch" style="background:#FFB3CF"><span class="swatch-tip">--primary-200</span></div>
+      <div class="swatch" style="background:#FF80AF"><span class="swatch-tip">--primary-300</span></div>
+      <div class="swatch" style="background:#FF4D90"><span class="swatch-tip">--primary-400</span></div>
+      <div class="swatch base-mark" style="background:#E91E63"><span class="swatch-tip">--primary-500 ★ #E91E63</span></div>
+      <div class="swatch" style="background:#C2185B"><span class="swatch-tip">--primary-600</span></div>
+      <div class="swatch" style="background:#880E4F"><span class="swatch-tip">--primary-700</span></div>
+      <div class="swatch" style="background:#560027"><span class="swatch-tip">--primary-800</span></div>
+    </div>
+    <div class="palette-group"><span class="pal-name">Secundário</span>
+      <div class="swatch" style="background:#FFF0E6"><span class="swatch-tip">--secondary-100</span></div>
+      <div class="swatch" style="background:#FFCBA3"><span class="swatch-tip">--secondary-200</span></div>
+      <div class="swatch" style="background:#FFA066"><span class="swatch-tip">--secondary-300</span></div>
+      <div class="swatch" style="background:#FF7733"><span class="swatch-tip">--secondary-400</span></div>
+      <div class="swatch base-mark" style="background:#F04E00"><span class="swatch-tip">--secondary-500 ★ #F04E00</span></div>
+      <div class="swatch" style="background:#BF3D00"><span class="swatch-tip">--secondary-600</span></div>
+      <div class="swatch" style="background:#8F2D00"><span class="swatch-tip">--secondary-700</span></div>
+      <div class="swatch" style="background:#601E00"><span class="swatch-tip">--secondary-800</span></div>
+    </div>
+    <div class="palette-group"><span class="pal-name">Informação</span>
+      <div class="swatch" style="background:#E3F2FD"><span class="swatch-tip">--info-100</span></div>
+      <div class="swatch" style="background:#BBDEFB"><span class="swatch-tip">--info-200</span></div>
+      <div class="swatch" style="background:#64B5F6"><span class="swatch-tip">--info-300</span></div>
+      <div class="swatch" style="background:#2196F3"><span class="swatch-tip">--info-400 · #2196F3</span></div>
+      <div class="swatch base-mark" style="background:#1565C0"><span class="swatch-tip">--info-500 ★ #1565C0</span></div>
+      <div class="swatch" style="background:#0D47A1"><span class="swatch-tip">--info-600</span></div>
+      <div class="swatch" style="background:#0A3272"><span class="swatch-tip">--info-700</span></div>
+      <div class="swatch" style="background:#071F4A"><span class="swatch-tip">--info-800</span></div>
+    </div>
+    <div class="palette-group"><span class="pal-name">Sucesso</span>
+      <div class="swatch" style="background:#E8F5E9"><span class="swatch-tip">--success-100</span></div>
+      <div class="swatch" style="background:#C8E6C9"><span class="swatch-tip">--success-200</span></div>
+      <div class="swatch" style="background:#81C784"><span class="swatch-tip">--success-300</span></div>
+      <div class="swatch" style="background:#4CAF50"><span class="swatch-tip">--success-400 · #4CAF50</span></div>
+      <div class="swatch base-mark" style="background:#00E676"><span class="swatch-tip">--success-500 ★ #00E676</span></div>
+      <div class="swatch" style="background:#2E7D32"><span class="swatch-tip">--success-600 · #2E7D32</span></div>
+      <div class="swatch" style="background:#1B5E20"><span class="swatch-tip">--success-700</span></div>
+      <div class="swatch" style="background:#0A3D13"><span class="swatch-tip">--success-800</span></div>
+    </div>
+    <div class="palette-group"><span class="pal-name">Alerta</span>
+      <div class="swatch" style="background:#FFFDE7"><span class="swatch-tip">--warning-100</span></div>
+      <div class="swatch" style="background:#FFF9C4"><span class="swatch-tip">--warning-200</span></div>
+      <div class="swatch" style="background:#FFF176"><span class="swatch-tip">--warning-300</span></div>
+      <div class="swatch" style="background:#FFEE58"><span class="swatch-tip">--warning-400</span></div>
+      <div class="swatch base-mark" style="background:#FFEB3B"><span class="swatch-tip">--warning-500 ★ #FFEB3B</span></div>
+      <div class="swatch" style="background:#F9A825"><span class="swatch-tip">--warning-600 · FAB</span></div>
+      <div class="swatch" style="background:#9E6600"><span class="swatch-tip">--warning-700</span></div>
+      <div class="swatch" style="background:#5C3D00"><span class="swatch-tip">--warning-800</span></div>
+    </div>
+    <div class="palette-group"><span class="pal-name">Erro</span>
+      <div class="swatch" style="background:#FFEBEE"><span class="swatch-tip">--error-100</span></div>
+      <div class="swatch" style="background:#FFCDD2"><span class="swatch-tip">--error-200</span></div>
+      <div class="swatch" style="background:#EF9A9A"><span class="swatch-tip">--error-300</span></div>
+      <div class="swatch" style="background:#EF5350"><span class="swatch-tip">--error-400</span></div>
+      <div class="swatch base-mark" style="background:#F44336"><span class="swatch-tip">--error-500 ★ #F44336</span></div>
+      <div class="swatch" style="background:#C62828"><span class="swatch-tip">--error-600</span></div>
+      <div class="swatch" style="background:#8B0000"><span class="swatch-tip">--error-700</span></div>
+      <div class="swatch" style="background:#560000"><span class="swatch-tip">--error-800</span></div>
+    </div>
+    <div class="palette-group"><span class="pal-name">Alt Teal</span>
+      <div class="swatch" style="background:#E0F7F4"><span class="swatch-tip">--alt1-100</span></div>
+      <div class="swatch" style="background:#B2EBE8"><span class="swatch-tip">--alt1-200</span></div>
+      <div class="swatch" style="background:#4ECDC4"><span class="swatch-tip">--alt1-300</span></div>
+      <div class="swatch" style="background:#00BFA5"><span class="swatch-tip">--alt1-400</span></div>
+      <div class="swatch base-mark" style="background:#00897B"><span class="swatch-tip">--alt1-500 ★ #00897B</span></div>
+      <div class="swatch" style="background:#00695C"><span class="swatch-tip">--alt1-600</span></div>
+      <div class="swatch" style="background:#004D40"><span class="swatch-tip">--alt1-700</span></div>
+      <div class="swatch" style="background:#003330"><span class="swatch-tip">--alt1-800</span></div>
+    </div>
+    <div class="palette-group"><span class="pal-name">Alt Cyan</span>
+      <div class="swatch" style="background:#E0F9FF"><span class="swatch-tip">--alt2-100</span></div>
+      <div class="swatch" style="background:#B3F0FF"><span class="swatch-tip">--alt2-200</span></div>
+      <div class="swatch" style="background:#6FE7FF"><span class="swatch-tip">--alt2-300</span></div>
+      <div class="swatch" style="background:#00D4E8"><span class="swatch-tip">--alt2-400</span></div>
+      <div class="swatch base-mark" style="background:#00ACC1"><span class="swatch-tip">--alt2-500 ★ #00ACC1</span></div>
+      <div class="swatch" style="background:#00838F"><span class="swatch-tip">--alt2-600</span></div>
+      <div class="swatch" style="background:#006064"><span class="swatch-tip">--alt2-700</span></div>
+      <div class="swatch" style="background:#003E42"><span class="swatch-tip">--alt2-800</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     TIPOGRAFIA
+════════════════════════════════════ -->
+<section class="section" id="tipografia">
+  <div class="section-eyebrow">Fundação</div>
+  <h2 class="section-title">Tipografia</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">Quicksand para títulos e valores numéricos. Montserrat para toda a interface operacional. Pesos 300–700 disponíveis em ambas.</p>
+  <div class="grid-2" style="gap:20px;">
+    <div>
+      <div class="sub-label">Quicksand — Títulos & Valores</div>
+      <div class="type-row"><span style="font-family:var(--font-title);font-size:26px;font-weight:700;">Página h1</span><span class="type-meta">26px / 700</span></div>
+      <div class="type-row"><span style="font-family:var(--font-title);font-size:20px;font-weight:700;">Seção h2</span><span class="type-meta">20px / 700</span></div>
+      <div class="type-row"><span style="font-family:var(--font-title);font-size:18px;font-weight:700;">Tab title</span><span class="type-meta">18px / 700 — tab ativa</span></div>
+      <div class="type-row"><span style="font-family:var(--font-title);font-size:16px;font-weight:700;">Card / modal h3</span><span class="type-meta">16px / 700</span></div>
+      <div class="type-row"><span style="font-family:var(--font-title);font-size:17px;font-weight:700;">R$ 84.320,00</span><span class="type-meta">17px / 700 — KPI valor</span></div>
+      <div class="type-row"><span style="font-family:var(--font-title);font-size:28px;font-weight:700;">1.247</span><span class="type-meta">28px / 700 — KPI grande</span></div>
+    </div>
+    <div>
+      <div class="sub-label">Montserrat — Interface</div>
+      <div class="type-row"><span style="font-size:13px;font-weight:400;">Corpo padrão de texto</span><span class="type-meta">13px / 400</span></div>
+      <div class="type-row"><span style="font-size:12.5px;font-weight:400;">Tabela / chat / células</span><span class="type-meta">12.5px / 400</span></div>
+      <div class="type-row"><span style="font-size:12px;font-weight:600;">Badge · Label de campo</span><span class="type-meta">12px / 600</span></div>
+      <div class="type-row"><span style="font-size:13px;font-weight:500;">Nav link · Item de menu</span><span class="type-meta">13px / 500</span></div>
+      <div class="type-row"><span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;">Caps Label</span><span class="type-meta">11px / 700 uppercase</span></div>
+      <div class="type-row"><span style="font-size:10px;font-weight:400;color:var(--neutro-500);">08:42 · timestamp / caption</span><span class="type-meta">10px / 400 muted</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     ESPAÇAMENTO
+════════════════════════════════════ -->
+<section class="section" id="espacamento">
+  <div class="section-eyebrow">Fundação</div>
+  <h2 class="section-title">Espaçamento</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">Sistema de 4pt grid. Todos os valores são múltiplos de 4px.</p>
+  <div class="card">
+    <div class="space-row"><div class="space-bar" style="width:4px;"></div><span style="font-size:11px;font-family:'Courier New';color:var(--color-text-muted);width:160px;">--space-1 · 4px</span><span style="font-size:11px;color:var(--color-text-muted);">Gap mínimo, ícone↔texto</span></div>
+    <div class="space-row"><div class="space-bar" style="width:8px;"></div><span style="font-size:11px;font-family:'Courier New';color:var(--color-text-muted);width:160px;">--space-2 · 8px</span><span style="font-size:11px;color:var(--color-text-muted);">Padding btn SM, gap de badges</span></div>
+    <div class="space-row"><div class="space-bar" style="width:12px;"></div><span style="font-size:11px;font-family:'Courier New';color:var(--color-text-muted);width:160px;">--space-3 · 12px</span><span style="font-size:11px;color:var(--color-text-muted);">Padding de input, célula</span></div>
+    <div class="space-row"><div class="space-bar" style="width:16px;"></div><span style="font-size:11px;font-family:'Courier New';color:var(--color-text-muted);width:160px;">--space-4 · 16px</span><span style="font-size:11px;color:var(--color-text-muted);">Padding btn MD, gap entre itens</span></div>
+    <div class="space-row"><div class="space-bar" style="width:20px;"></div><span style="font-size:11px;font-family:'Courier New';color:var(--color-text-muted);width:160px;">--space-5 · 20px</span></div>
+    <div class="space-row"><div class="space-bar" style="width:24px;"></div><span style="font-size:11px;font-family:'Courier New';color:var(--color-text-muted);width:160px;">--space-6 · 24px</span><span style="font-size:11px;color:var(--color-text-muted);">Padding card, modal, btn LG</span></div>
+    <div class="space-row"><div class="space-bar" style="width:32px;"></div><span style="font-size:11px;font-family:'Courier New';color:var(--color-text-muted);width:160px;">--space-8 · 32px</span></div>
+    <div class="space-row"><div class="space-bar" style="width:40px;"></div><span style="font-size:11px;font-family:'Courier New';color:var(--color-text-muted);width:160px;">--space-10 · 40px</span><span style="font-size:11px;color:var(--color-text-muted);">Padding lateral de página</span></div>
+    <div class="space-row"><div class="space-bar" style="width:64px;"></div><span style="font-size:11px;font-family:'Courier New';color:var(--color-text-muted);width:160px;">--space-16 · 64px</span><span style="font-size:11px;color:var(--color-text-muted);">Entre seções maiores</span></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     BORDER RADIUS
+════════════════════════════════════ -->
+<section class="section" id="radius">
+  <div class="section-eyebrow">Fundação</div>
+  <h2 class="section-title">Border Radius</h2>
+  <div class="section-rule"></div>
+  <div class="card">
+    <div class="radius-demo">
+      <div class="radius-item"><div class="radius-box" style="width:48px;height:40px;border-radius:4px;"></div><div class="radius-label">xs · 4px</div><div class="radius-desc">checkbox</div></div>
+      <div class="radius-item"><div class="radius-box" style="width:58px;height:44px;border-radius:6px;"></div><div class="radius-label" style="color:var(--primary-600);">sm · 6px ★</div><div class="radius-desc">BOTÕES</div></div>
+      <div class="radius-item"><div class="radius-box" style="width:64px;height:44px;border-radius:8px;"></div><div class="radius-label">md · 8px</div><div class="radius-desc">inputs, tab-icon</div></div>
+      <div class="radius-item"><div class="radius-box" style="width:64px;height:52px;border-radius:12px;"></div><div class="radius-label">lg · 12px</div><div class="radius-desc">cards, modais</div></div>
+      <div class="radius-item"><div class="radius-box" style="width:64px;height:40px;border-radius:999px;"></div><div class="radius-label">pill · 999px</div><div class="radius-desc">badges, FAB, toggles</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     SOMBRAS
+════════════════════════════════════ -->
+<section class="section" id="sombras">
+  <div class="section-eyebrow">Fundação</div>
+  <h2 class="section-title">Sombras</h2>
+  <div class="section-rule"></div>
+  <div class="row row-c" style="gap:18px;flex-wrap:wrap;">
+    <div class="shadow-demo" style="box-shadow:0 1px 4px rgba(0,0,0,.08);"><div class="shadow-name">--shadow-card</div><div class="shadow-val">0 1px 4px α.08</div></div>
+    <div class="shadow-demo" style="box-shadow:0 2px 8px rgba(0,0,0,.10);"><div class="shadow-name">--shadow-panel</div><div class="shadow-val">0 2px 8px α.10</div></div>
+    <div class="shadow-demo" style="box-shadow:0 2px 6px rgba(233,30,99,.25);"><div class="shadow-name">--shadow-btn</div><div class="shadow-val">0 2px 6px pink α.25</div></div>
+    <div class="shadow-demo" style="box-shadow:0 8px 32px rgba(0,0,0,.18);"><div class="shadow-name">--shadow-modal</div><div class="shadow-val">0 8px 32px α.18</div></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     NAVBAR
+════════════════════════════════════ -->
+<section class="section" id="navbar">
+  <div class="section-eyebrow">Componentes</div>
+  <h2 class="section-title">Navbar</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">56px de altura · sticky top:0 · z-index:100. Logo em Quicksand 700. Links em Montserrat 500.</p>
+  <div class="prod-navbar">
+    <div class="prod-navbar-logo"><div class="prod-navbar-logo-icon"><i class="fa-solid fa-bolt" style="font-size:13px;"></i></div>newbe</div>
+    <div class="prod-navbar-links">
+      <a href="#" style="color:var(--color-text-secondary);font-size:13px;">Dashboard</a>
+      <a href="#" class="prod-navbar-link-active" style="font-size:13px;">Benefícios</a>
+      <a href="#" style="color:var(--color-text-secondary);font-size:13px;">Clientes</a>
+      <a href="#" style="color:var(--color-text-secondary);font-size:13px;">Pedidos</a>
+      <a href="#" style="color:var(--color-text-secondary);font-size:13px;">Inconsistências</a>
+    </div>
+    <div class="prod-navbar-actions">
+      <button class="prod-navbar-icon"><i class="fa-solid fa-bell"></i></button>
+      <button class="prod-navbar-icon"><i class="fa-regular fa-circle-question"></i></button>
+      <button class="prod-navbar-icon"><i class="fa-solid fa-gear"></i></button>
+      <div class="prod-navbar-avatar">IB</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     BOTÕES
+════════════════════════════════════ -->
+<section class="section" id="botoes">
+  <div class="section-eyebrow">Componentes</div>
+  <h2 class="section-title">Botões</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">Border-radius <strong>6px</strong> (--radius-sm) — retangular com cantos suavizados. Montserrat SemiBold em todos. Badges e FAB continuam pill (999px).</p>
+  <div class="card">
+    <div class="sub-label">Variantes — tamanho MD</div>
+    <div class="btn-row">
+      <button class="btn btn-primary btn-md"><i class="fa-solid fa-plus"></i>Primary</button>
+      <button class="btn btn-dark btn-md"><i class="fa-solid fa-file-export"></i>Dark</button>
+      <button class="btn btn-outline-primary btn-md"><i class="fa-solid fa-eye"></i>Outline Primary</button>
+      <button class="btn btn-outline btn-md btn-caret"><i class="fa-solid fa-filter"></i>Outline</button>
+      <button class="btn btn-ghost btn-md"><i class="fa-solid fa-xmark"></i>Ghost</button>
+      <button class="btn btn-danger btn-md"><i class="fa-solid fa-phone-slash"></i>Danger</button>
+    </div>
+    <div class="btn-row" style="margin-top:4px;">
+      <button class="btn btn-disabled-filled btn-md">Disabled filled</button>
+      <button class="btn btn-disabled-outline btn-md">Disabled outline</button>
+    </div>
+    <div class="divider"></div>
+    <div class="sub-label">Tamanhos — Primary</div>
+    <div class="row row-c" style="gap:12px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:8px;"><span class="btn-size-label">LG</span><button class="btn btn-primary btn-lg"><i class="fa-solid fa-plus"></i>Adicionar</button></div>
+      <div style="display:flex;align-items:center;gap:8px;"><span class="btn-size-label">MD</span><button class="btn btn-primary btn-md"><i class="fa-solid fa-plus"></i>Adicionar</button></div>
+      <div style="display:flex;align-items:center;gap:8px;"><span class="btn-size-label">SM</span><button class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i>Novo</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     BADGES
+════════════════════════════════════ -->
+<section class="section" id="badges">
+  <div class="section-eyebrow">Componentes</div>
+  <h2 class="section-title">Badges / Status</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">border-radius: 999px (pill) em todos os badges. 25 classes organizadas por contexto. Variante <code>.badge-dropdown</code> adiciona caret.</p>
+
+  <div class="subsection">
+    <div class="ctx-label"><i class="fa-solid fa-globe" style="margin-right:4px;"></i>Global — Benefícios · Perfil de acesso · Clientes</div>
+    <div class="badge-group">
+      <span class="badge badge-ativo"><i class="fa-solid fa-circle-check"></i>Ativo</span>
+      <span class="badge badge-inativo"><i class="fa-solid fa-circle-xmark"></i>Inativo</span>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="ctx-label"><i class="fa-solid fa-file-invoice-dollar" style="margin-right:4px;"></i>Pedidos</div>
+    <div class="badge-group">
+      <span class="badge badge-liberado"><i class="fa-solid fa-circle-check"></i>Liberado</span>
+      <span class="badge badge-liberado-parcial"><i class="fa-solid fa-circle-half-stroke"></i>Liberado parcial</span>
+      <span class="badge badge-processando"><i class="fa-solid fa-spinner"></i>Processando</span>
+      <span class="badge badge-pago"><i class="fa-solid fa-credit-card"></i>Pago</span>
+      <span class="badge badge-pago-cc"><i class="fa-solid fa-credit-card"></i>Pago/CC</span>
+      <span class="badge badge-a-confirmar"><i class="fa-regular fa-clock"></i>A Confirmar</span>
+      <span class="badge badge-excluido"><i class="fa-solid fa-ban"></i>Excluído</span>
+      <span class="badge badge-cancelado"><i class="fa-solid fa-circle-xmark"></i>Cancelado</span>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="ctx-label"><i class="fa-solid fa-users" style="margin-right:4px;"></i>Pedidos › Colaboradores — com dropdown</div>
+    <div class="badge-group">
+      <span class="badge badge-pendente badge-dropdown"><i class="fa-regular fa-clock"></i>Pendente</span>
+      <span class="badge badge-processando badge-dropdown"><i class="fa-solid fa-spinner"></i>Processando</span>
+      <span class="badge badge-disponivel badge-dropdown"><i class="fa-solid fa-circle-check"></i>Disponível</span>
+      <span class="badge badge-financeiro badge-dropdown"><i class="fa-solid fa-coins"></i>Financeiro</span>
+      <span class="badge badge-inconsistencia badge-dropdown"><i class="fa-solid fa-triangle-exclamation"></i>Inconsistência</span>
+      <span class="badge badge-cancelado badge-dropdown"><i class="fa-solid fa-circle-xmark"></i>Cancelado</span>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="ctx-label"><i class="fa-solid fa-triangle-exclamation" style="margin-right:4px;"></i>Inconsistências — badge + contador SLA</div>
+    <div class="badge-group">
+      <span style="display:flex;align-items:center;gap:6px;"><span class="badge badge-inconsistencia"><i class="fa-solid fa-triangle-exclamation"></i>Inconsistência</span><span class="sla-counter high">06</span></span>
+      <span style="display:flex;align-items:center;gap:6px;"><span class="badge badge-financeiro"><i class="fa-solid fa-coins"></i>Financeiro</span><span class="sla-counter medium">03</span></span>
+      <span style="display:flex;align-items:center;gap:6px;"><span class="badge badge-inconsistencia"><i class="fa-solid fa-triangle-exclamation"></i>Inconsistência</span><span class="sla-counter low">01</span></span>
+      <div style="width:100%;margin-top:6px;font-size:11px;color:var(--color-text-muted);font-family:var(--font-body);">
+        <span class="sla-counter low" style="margin-right:4px;">01</span>1–3 dias &nbsp;
+        <span class="sla-counter medium" style="margin-right:4px;">04</span>4–7 dias &nbsp;
+        <span class="sla-counter high" style="margin-right:4px;">08</span>8+ dias
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="ctx-label"><i class="fa-solid fa-headset" style="margin-right:4px;"></i>Chamados — com dropdown</div>
+    <div class="badge-group">
+      <span class="badge badge-aberto badge-dropdown"><i class="fa-solid fa-circle-check"></i>Aberto</span>
+      <span class="badge badge-em-analise badge-dropdown"><i class="fa-solid fa-magnifying-glass"></i>Em análise</span>
+      <span class="badge badge-fechado badge-dropdown"><i class="fa-solid fa-lock"></i>Fechado</span>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="ctx-label"><i class="fa-solid fa-building" style="margin-right:4px;"></i>CRM / Empresas — funil de vendas</div>
+    <div class="badge-group">
+      <span class="badge badge-pre-cadastrado"><i class="fa-regular fa-circle"></i>Pré cadastrado</span>
+      <span class="badge badge-cadastrado"><i class="fa-solid fa-circle"></i>Cadastrado</span>
+      <span class="badge badge-cross-sell"><i class="fa-solid fa-arrows-rotate"></i>Cross Sell</span>
+      <span class="badge badge-prospeccao"><i class="fa-solid fa-binoculars"></i>Prospecção</span>
+      <span class="badge badge-negociacao"><i class="fa-solid fa-handshake"></i>Negociação</span>
+      <span class="badge badge-negociacao-hot"><i class="fa-solid fa-fire"></i>Negociação</span>
+      <span class="badge badge-cliente-fechado"><i class="fa-solid fa-trophy"></i>Cliente fechado</span>
+      <span class="badge badge-nao-convertido"><i class="fa-solid fa-xmark"></i>Não convertido</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     INPUTS
+════════════════════════════════════ -->
+<section class="section" id="inputs">
+  <div class="section-eyebrow">Componentes</div>
+  <h2 class="section-title">Inputs</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">36px · border-radius 8px · border 1.5px · Montserrat 12px. Cinco estados: default, filled, focus, success e error.</p>
+  <div class="grid-3">
+    <div class="field"><label class="field-label">Default</label><div class="input-wrap"><input class="input" placeholder="Buscar empresa..."><i class="fa-solid fa-magnifying-glass input-icon"></i></div></div>
+    <div class="field"><label class="field-label">Success</label><div class="input-wrap success"><input class="input success" value="email@empresa.com"><i class="fa-solid fa-circle-check input-icon"></i></div><span class="field-support success"><i class="fa-solid fa-circle-check"></i> Válido</span></div>
+    <div class="field"><label class="field-label">Error</label><div class="input-wrap error"><input class="input error" value="00.000.000"><i class="fa-solid fa-triangle-exclamation input-icon"></i></div><span class="field-support error"><i class="fa-solid fa-triangle-exclamation"></i> CNPJ inválido</span></div>
+    <div class="field"><label class="field-label">Filled</label><input class="input" value="1NIQ COMERCIAL LTDA"></div>
+    <div class="field"><label class="field-label">Disabled</label><input class="input" disabled value="Não disponível"></div>
+    <div class="field"><label class="field-label">Date range</label><input class="input" value="10/12/2024 até 10/03/2025" style="font-size:11px;"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     CONTROLES
+════════════════════════════════════ -->
+<section class="section" id="controles">
+  <div class="section-eyebrow">Componentes</div>
+  <h2 class="section-title">Checkbox · Radio · Toggle</h2>
+  <div class="section-rule"></div>
+  <div class="grid-3">
+    <div>
+      <div class="sub-label">Checkbox — 3 tamanhos × 4 estados</div>
+      <div class="ctrl-row"><input type="checkbox" class="checkbox lg" checked><span class="ctrl-lbl">LG 20px · checado</span></div>
+      <div class="ctrl-row"><input type="checkbox" class="checkbox md"><span class="ctrl-lbl">MD 16px · default</span></div>
+      <div class="ctrl-row"><input type="checkbox" class="checkbox sm" checked disabled><span class="ctrl-lbl off">SM 13px · disabled</span></div>
+      <div class="ctrl-row"><input type="checkbox" class="checkbox md" disabled><span class="ctrl-lbl off">MD · disabled</span></div>
+    </div>
+    <div>
+      <div class="sub-label">Radio — 3 tamanhos × 4 estados</div>
+      <div class="ctrl-row"><input type="radio" class="radio lg" name="r1" checked><span class="ctrl-lbl">LG · checado</span></div>
+      <div class="ctrl-row"><input type="radio" class="radio md" name="r1"><span class="ctrl-lbl">MD · default</span></div>
+      <div class="ctrl-row"><input type="radio" class="radio sm" name="r1" disabled><span class="ctrl-lbl off">SM · disabled</span></div>
+    </div>
+    <div>
+      <div class="sub-label">Toggle / Switch — clicável</div>
+      <div class="toggle-row">
+        <label class="toggle lg on" onclick="this.classList.toggle('on')"><input type="checkbox"><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
+        <span class="ctrl-lbl">LG ON</span>
+      </div>
+      <div class="toggle-row">
+        <label class="toggle sm" onclick="this.classList.toggle('on')"><input type="checkbox"><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
+        <span class="ctrl-lbl">SM OFF</span>
+      </div>
+      <div class="toggle-row">
+        <label class="toggle lg on disabled"><input type="checkbox" disabled><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
+        <span class="ctrl-lbl off">Disabled ON</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     TABS
+════════════════════════════════════ -->
+<section class="section" id="tabs">
+  <div class="section-eyebrow">Componentes</div>
+  <h2 class="section-title">Tabs</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">Formato real do componente Angular (<code>tabs.component.scss</code>). Clip-path diagonal na aba ativa, filter drop-shadow no container, Quicksand Bold 18px. Ícone 21×21px com bg colorido. Clique para alternar.</p>
+  <div class="tabs-container" id="tabsDemo">
+    <div class="tabs-header">
+      <div class="tab active-tab" onclick="switchTab(0,this)"><div class="tab-icon"><i class="fa-solid fa-building" style="font-size:9px;color:#fff;"></i></div><h3 class="tab-title">Empresas<span class="tab-count">2000</span></h3></div>
+      <div class="tab" onclick="switchTab(1,this)"><div class="tab-icon"><i class="fa-solid fa-users" style="font-size:9px;color:#fff;"></i></div><h3 class="tab-title">Grupos<span class="tab-count">2000</span></h3></div>
+      <div class="tab" onclick="switchTab(2,this)"><div class="tab-icon"><i class="fa-solid fa-user" style="font-size:9px;color:#fff;"></i></div><h3 class="tab-title">Funcionários<span class="tab-count">2000</span></h3></div>
+    </div>
+    <div class="tab-content" id="tabContent">
+      <span style="font-size:12.5px;color:var(--color-text-secondary);">Conteúdo da aba <strong>Empresas</strong> — tabela, filtros, painel de ações.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     TABELA
+════════════════════════════════════ -->
+<section class="section" id="tabela">
+  <div class="section-eyebrow">Componentes</div>
+  <h2 class="section-title">Tabela de Dados</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">Header 10.5px uppercase · células 12.5px · hover: --neutro-200 · selecionada: --primary-100. Checkbox, ações inline e barra de seleção em massa.</p>
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead><tr>
+        <th style="width:40px;"><input type="checkbox" class="checkbox md"></th>
+        <th>Status</th><th>Pedido</th><th>Empresa</th><th>Total</th><th>Data</th><th>SLA</th><th></th>
+      </tr></thead>
+      <tbody>
+        <tr class="row-sel">
+          <td><input type="checkbox" class="checkbox md" checked></td>
+          <td><span class="badge badge-liberado"><i class="fa-solid fa-circle-check"></i>Liberado</span></td>
+          <td><strong>20895578</strong></td><td>1NIQ COMERCIAL LTDA</td><td>R$ 1.227,72</td><td>17/03/2025</td><td>—</td>
+          <td><div class="tbl-acts"><i class="fa-solid fa-paperclip"></i><i class="fa-solid fa-eye"></i><i class="fa-solid fa-pen-to-square"></i></div></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="checkbox md"></td>
+          <td><span class="badge badge-pago"><i class="fa-solid fa-credit-card"></i>Pago</span></td>
+          <td><strong>20895579</strong></td><td>EMPRESA LEGAL LTDA</td><td>R$ 3.480,00</td><td>15/01/2026</td>
+          <td><span class="sla-counter medium">04</span></td>
+          <td><div class="tbl-acts"><i class="fa-solid fa-paperclip"></i><i class="fa-solid fa-eye"></i><i class="fa-solid fa-pen-to-square"></i></div></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="checkbox md"></td>
+          <td><span class="badge badge-inconsistencia"><i class="fa-solid fa-triangle-exclamation"></i>Inconsistência</span></td>
+          <td><strong>20895580</strong></td><td>ABC TRANSPORTES LTDA</td><td>R$ 892,30</td><td>10/03/2025</td>
+          <td><span class="sla-counter high">06</span></td>
+          <td><div class="tbl-acts"><i class="fa-solid fa-paperclip"></i><i class="fa-solid fa-eye"></i><i class="fa-solid fa-pen-to-square"></i></div></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="checkbox md"></td>
+          <td><span class="badge badge-cancelado"><i class="fa-solid fa-circle-xmark"></i>Cancelado</span></td>
+          <td><strong>20895581</strong></td><td>1NIQ COMERCIAL LTDA</td><td>R$ 540,00</td><td>08/02/2026</td><td>—</td>
+          <td><div class="tbl-acts"><i class="fa-solid fa-paperclip"></i><i class="fa-solid fa-eye"></i><i class="fa-solid fa-pen-to-square"></i></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+    <span class="bulk-bar"><i class="fa-solid fa-eye"></i>1 pedido selecionado<i class="fa-solid fa-xmark" style="cursor:pointer;margin-left:4px;"></i></span>
+    <div class="pagination" style="padding:0;">
+      <button class="page-btn"><i class="fa-solid fa-chevron-left" style="font-size:9px;"></i></button>
+      <div class="page-dot on"></div><div class="page-dot"></div><div class="page-dot"></div><div class="page-dot"></div>
+      <button class="page-btn"><i class="fa-solid fa-chevron-right" style="font-size:9px;"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     MODAL
+════════════════════════════════════ -->
+<section class="section" id="modal">
+  <div class="section-eyebrow">Componentes</div>
+  <h2 class="section-title">Modal</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">Overlay rgba(61,61,61,.60) · painel branco · border-radius 12px. Título em Quicksand 700. Footer com ações à direita.</p>
+  <button class="btn btn-primary btn-md" onclick="document.getElementById('demoModal').classList.add('open')"><i class="fa-solid fa-window-restore"></i>Abrir modal</button>
+  <div class="modal-overlay" id="demoModal" onclick="if(event.target===this)this.classList.remove('open')">
+    <div class="modal">
+      <div class="modal-hdr">
+        <h3 class="modal-title">Confirmar ação</h3>
+        <button class="modal-close" onclick="document.getElementById('demoModal').classList.remove('open')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">Deseja confirmar este pedido? Esta ação não pode ser desfeita após a confirmação do pagamento.</div>
+      <div class="modal-ftr">
+        <button class="btn btn-outline btn-md" onclick="document.getElementById('demoModal').classList.remove('open')"><i class="fa-solid fa-xmark"></i>Cancelar</button>
+        <button class="btn btn-primary btn-md" onclick="document.getElementById('demoModal').classList.remove('open')"><i class="fa-solid fa-check"></i>Confirmar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     CHAT
+════════════════════════════════════ -->
+<section class="section" id="chat">
+  <div class="section-eyebrow">Componentes</div>
+  <h2 class="section-title">Chat / Chamados</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">Balão recebido: branco com borda · enviado: #C8E6C9 (success-200). Timestamp Montserrat 10px muted. Input bar em pill.</p>
+  <div style="max-width:460px;">
+    <div class="chat-demo">
+      <div class="bubble in">Olá! Preciso resolver a inconsistência no pedido #331921292.<div class="bubble-time">08:30</div></div>
+      <div class="bubble out">Entendido! Já estamos verificando. O motivo identificado foi duplicidade.<div class="bubble-time">08:32</div></div>
+      <div class="bubble in">Consegue resolver hoje? O SLA está em 06 dias.<div class="bubble-time">08:33</div></div>
+      <div class="bubble out">Sim, priorizarei. Aguarde confirmação por e-mail.<div class="bubble-time">08:35</div></div>
+      <div class="chat-input-bar">
+        <i class="fa-solid fa-paperclip" style="color:var(--neutro-400);font-size:13px;cursor:pointer;"></i>
+        <input placeholder="Digite sua mensagem...">
+        <button class="chat-send"><i class="fa-solid fa-paper-plane" style="font-size:10px;"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     CARDS DE RESUMO
+════════════════════════════════════ -->
+<section class="section" id="cards">
+  <div class="section-eyebrow">Componentes</div>
+  <h2 class="section-title">Cards de Resumo</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">Grid auto-fill minmax 140px. Variantes hl-pink e hl-green com gradiente sutil. Label em Montserrat 10px caps, valor em Quicksand 700.</p>
+  <div class="sum-grid">
+    <div class="sum-card hl-pink"><div class="sc-label">Total pedidos</div><div class="sc-value">1.247</div><div class="sc-sub">+12% vs anterior</div></div>
+    <div class="sum-card hl-green"><div class="sc-label">Liberados</div><div class="sc-value">R$ 84.320</div><div class="sc-sub">este mês</div></div>
+    <div class="sum-card"><div class="sc-label">Inconsistências</div><div class="sc-value">127</div><div class="sc-sub">em aberto</div></div>
+    <div class="sum-card"><div class="sc-label">Empresas ativas</div><div class="sc-value">2.000</div><div class="sc-sub">cadastradas</div></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     AVATARES & PILLS
+════════════════════════════════════ -->
+<section class="section" id="avatares">
+  <div class="section-eyebrow">Componentes</div>
+  <h2 class="section-title">Avatares & Benefit Pills</h2>
+  <div class="section-rule"></div>
+  <div class="row row-c" style="gap:32px;flex-wrap:wrap;">
+    <div><div class="sub-label">Tamanhos</div><div class="row row-c" style="gap:10px;"><div class="av av-lg" style="background:var(--secondary-400);">IB</div><div class="av av-md" style="background:var(--primary-500);">JS</div><div class="av av-sm" style="background:var(--info-500);">AL</div></div></div>
+    <div><div class="sub-label">Stack com overflow</div><div class="av-stack"><div class="av av-sm" style="background:var(--secondary-400);">IB</div><div class="av av-sm" style="background:var(--primary-500);">JS</div><div class="av av-sm" style="background:var(--info-500);">AL</div><div class="av av-sm" style="background:var(--success-600);">MR</div><div class="av av-sm av-more">+13</div></div></div>
+    <div><div class="sub-label">Benefit Pills</div><div class="row row-c" style="gap:6px;"><div class="bp bp-vt" title="Vale Transporte">VT</div><div class="bp bp-vr" title="Vale Refeição">VR</div><div class="bp bp-va" title="Vale Alimentação">VA</div><div class="bp bp-vc" title="Vale Cultura">VC</div><div class="bp bp-cp" title="Conta Pagamento">CP</div></div></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     PAGINAÇÃO & FAB
+════════════════════════════════════ -->
+<section class="section" id="paginacao">
+  <div class="section-eyebrow">Componentes</div>
+  <h2 class="section-title">Paginação & FAB</h2>
+  <div class="section-rule"></div>
+  <div class="row row-c" style="gap:32px;flex-wrap:wrap;">
+    <div><div class="sub-label">Paginação</div><div class="pagination" style="padding:0;"><button class="page-btn"><i class="fa-solid fa-chevron-left" style="font-size:9px;"></i></button><div class="page-dot on"></div><div class="page-dot"></div><div class="page-dot"></div><div class="page-dot"></div><button class="page-btn"><i class="fa-solid fa-chevron-right" style="font-size:9px;"></i></button></div></div>
+    <div><div class="sub-label">FAB — Mensagens</div><div class="fab-demo"><i class="fa-solid fa-comment-dots"></i>Mensagens<i class="fa-solid fa-chevron-up" style="font-size:9px;"></i></div></div>
+    <div><div class="sub-label">Barra de seleção em massa</div><span class="bulk-bar"><i class="fa-solid fa-eye"></i>3 pedidos selecionados<i class="fa-solid fa-xmark" style="cursor:pointer;margin-left:4px;"></i></span></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     CHART CORES
+════════════════════════════════════ -->
+<section class="section" id="chart-cores">
+  <div class="section-eyebrow">Dashboard</div>
+  <h2 class="section-title">Paleta de Cores para Gráficos</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">8 cores em sequência padronizada. Usar sempre nesta ordem para múltiplas séries. Fundos de área usam alpha 10–12%.</p>
+  <div class="card">
+    <div class="sub-label">Cores sólidas — linhas, barras, pontos</div>
+    <div class="c-palette">
+      <div class="c-swatch-item"><div style="background:#E91E63;"></div><span>#E91E63<br>primary</span></div>
+      <div class="c-swatch-item"><div style="background:#2196F3;"></div><span>#2196F3<br>blue</span></div>
+      <div class="c-swatch-item"><div style="background:#4CAF50;"></div><span>#4CAF50<br>green</span></div>
+      <div class="c-swatch-item"><div style="background:#F9A825;"></div><span>#F9A825<br>amber</span></div>
+      <div class="c-swatch-item"><div style="background:#00897B;"></div><span>#00897B<br>teal</span></div>
+      <div class="c-swatch-item"><div style="background:#F04E00;"></div><span>#F04E00<br>orange</span></div>
+      <div class="c-swatch-item"><div style="background:#00ACC1;"></div><span>#00ACC1<br>cyan</span></div>
+      <div class="c-swatch-item"><div style="background:#7B1FA2;"></div><span>#7B1FA2<br>purple</span></div>
+    </div>
+    <div class="divider"></div>
+    <div class="sub-label">Alpha 12% — fundos de área preenchida</div>
+    <div class="c-palette">
+      <div class="c-swatch-item"><div style="background:rgba(233,30,99,.12);border:1px dashed #E91E63;"></div><span>primary α12</span></div>
+      <div class="c-swatch-item"><div style="background:rgba(33,150,243,.12);border:1px dashed #2196F3;"></div><span>blue α12</span></div>
+      <div class="c-swatch-item"><div style="background:rgba(76,175,80,.12);border:1px dashed #4CAF50;"></div><span>green α12</span></div>
+      <div class="c-swatch-item"><div style="background:rgba(249,168,37,.12);border:1px dashed #F9A825;"></div><span>amber α12</span></div>
+      <div class="c-swatch-item"><div style="background:rgba(0,137,123,.12);border:1px dashed #00897B;"></div><span>teal α12</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     KPI CARDS
+════════════════════════════════════ -->
+<section class="section" id="kpi">
+  <div class="section-eyebrow">Dashboard</div>
+  <h2 class="section-title">KPI Cards</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">Três variantes. Quatro por linha no topo da dashboard usando grid Bootstrap 4 <code>col-6 col-md-3</code>. Valor em Quicksand 700, label em Montserrat 10px caps.</p>
+
+  <div class="subsection"><div class="sub-label">Variante A — Número simples com tendência</div>
+    <div class="grid-4">
+      <div class="kpi-card"><span class="kpi-label">Total de pedidos</span><span class="kpi-value">1.247</span><span class="kpi-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +12% vs anterior</span></div>
+      <div class="kpi-card"><span class="kpi-label">Valor liberado</span><span class="kpi-value" style="font-size:22px;">R$ 84.320</span><span class="kpi-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +8,4%</span></div>
+      <div class="kpi-card"><span class="kpi-label">Empresas ativas</span><span class="kpi-value">2.000</span><span class="kpi-trend flat"><i class="fa-solid fa-minus"></i> Estável</span></div>
+      <div class="kpi-card"><span class="kpi-label">Inconsistências</span><span class="kpi-value" style="color:var(--error-500);">127</span><span class="kpi-trend down"><i class="fa-solid fa-arrow-trend-down"></i> −5 esta semana</span></div>
+    </div>
+  </div>
+
+  <div class="subsection"><div class="sub-label">Variante B — Com ícone colorido (6 cores disponíveis)</div>
+    <div class="grid-4">
+      <div class="kpi-card"><div class="kpi-icon-row"><div class="kpi-icon-wrap blue"><i class="fa-solid fa-file-invoice-dollar"></i></div><div style="display:flex;flex-direction:column;gap:2px;"><span class="kpi-label">Pedidos</span><span class="kpi-value" style="font-size:20px;">1.247</span><span class="kpi-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +12%</span></div></div></div>
+      <div class="kpi-card"><div class="kpi-icon-row"><div class="kpi-icon-wrap green"><i class="fa-solid fa-coins"></i></div><div style="display:flex;flex-direction:column;gap:2px;"><span class="kpi-label">Liberado</span><span class="kpi-value" style="font-size:20px;">R$ 84k</span><span class="kpi-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +8,4%</span></div></div></div>
+      <div class="kpi-card"><div class="kpi-icon-row"><div class="kpi-icon-wrap teal"><i class="fa-solid fa-building"></i></div><div style="display:flex;flex-direction:column;gap:2px;"><span class="kpi-label">Empresas</span><span class="kpi-value" style="font-size:20px;">2.000</span><span class="kpi-trend flat"><i class="fa-solid fa-minus"></i> Estável</span></div></div></div>
+      <div class="kpi-card"><div class="kpi-icon-row"><div class="kpi-icon-wrap red"><i class="fa-solid fa-triangle-exclamation"></i></div><div style="display:flex;flex-direction:column;gap:2px;"><span class="kpi-label">Inconsistências</span><span class="kpi-value" style="font-size:20px;color:var(--error-500);">127</span><span class="kpi-trend down"><i class="fa-solid fa-arrow-trend-down"></i> −5</span></div></div></div>
+    </div>
+  </div>
+
+  <div class="subsection"><div class="sub-label">Variante C — Com sparkline inline</div>
+    <div class="grid-4">
+      <div class="kpi-card"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div style="display:flex;flex-direction:column;gap:2px;"><span class="kpi-label">Pedidos/semana</span><span class="kpi-value" style="font-size:22px;">284</span><span class="kpi-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +6%</span></div><canvas id="kpiSpark1" width="90" height="44"></canvas></div></div>
+      <div class="kpi-card"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div style="display:flex;flex-direction:column;gap:2px;"><span class="kpi-label">Receita diária</span><span class="kpi-value" style="font-size:22px;">R$ 12k</span><span class="kpi-trend down"><i class="fa-solid fa-arrow-trend-down"></i> −2%</span></div><canvas id="kpiSpark2" width="90" height="44"></canvas></div></div>
+      <div class="kpi-card"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div style="display:flex;flex-direction:column;gap:2px;"><span class="kpi-label">SLA médio (dias)</span><span class="kpi-value" style="font-size:22px;">3,2</span><span class="kpi-trend up"><i class="fa-solid fa-arrow-trend-up"></i> melhora</span></div><canvas id="kpiSpark3" width="90" height="44"></canvas></div></div>
+      <div class="kpi-card"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div style="display:flex;flex-direction:column;gap:2px;"><span class="kpi-label">Ticket médio</span><span class="kpi-value" style="font-size:22px;">R$ 834</span><span class="kpi-trend flat"><i class="fa-solid fa-minus"></i> Estável</span></div><canvas id="kpiSpark4" width="90" height="44"></canvas></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     GRÁFICOS
+════════════════════════════════════ -->
+<section class="section" id="linha">
+  <div class="section-eyebrow">Dashboard</div>
+  <h2 class="section-title">Gráfico de Linha / Área</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">Evolução temporal. <code>tension: 0.4</code> para curvas suaves. Filtros de período funcionais nos botões.</p>
+  <div class="chart-card">
+    <div class="chart-header">
+      <div><div class="chart-title">Evolução de pedidos</div><div class="chart-subtitle">Volume mensal — Jan a Jun 2025</div></div>
+      <div class="chart-actions">
+        <button class="chart-period-btn active" onclick="setLineP(this,'7d')">7d</button>
+        <button class="chart-period-btn" onclick="setLineP(this,'30d')">30d</button>
+        <button class="chart-period-btn" onclick="setLineP(this,'90d')">90d</button>
+      </div>
+    </div>
+    <div class="chart-body" style="height:250px;"><canvas id="mainLine"></canvas></div>
+    <div class="chart-footer"><span><i class="fa-solid fa-circle-check" style="color:var(--success-400);font-size:10px;margin-right:4px;"></i>Atualizado agora</span><a href="#">Ver relatório completo <i class="fa-solid fa-arrow-right" style="font-size:9px;"></i></a></div>
+  </div>
+</section>
+
+<section class="section" id="barras">
+  <div class="section-eyebrow">Dashboard</div>
+  <h2 class="section-title">Gráfico de Barras</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc"><code>borderRadius: 4</code> nas barras. Variante simples e agrupada lado a lado.</p>
+  <div class="grid-2">
+    <div class="chart-card"><div class="chart-header"><div class="chart-title">Pedidos por mês</div></div><div class="chart-body" style="height:210px;"><canvas id="mainBar1"></canvas></div></div>
+    <div class="chart-card"><div class="chart-header"><div class="chart-title">Liberado vs Cancelado</div></div><div class="chart-body" style="height:210px;"><canvas id="mainBar2"></canvas></div></div>
+  </div>
+</section>
+
+<section class="section" id="rosca">
+  <div class="section-eyebrow">Dashboard</div>
+  <h2 class="section-title">Gráfico de Rosca</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc"><code>cutout: '68%'</code> · texto central via plugin inline · legenda à direita.</p>
+  <div class="grid-2">
+    <div class="chart-card"><div class="chart-header"><div class="chart-title">Distribuição por status</div></div><div class="chart-body" style="height:230px;"><canvas id="mainDonut1"></canvas></div></div>
+    <div class="chart-card"><div class="chart-header"><div class="chart-title">Mix de benefícios</div></div><div class="chart-body" style="height:230px;"><canvas id="mainDonut2"></canvas></div></div>
+  </div>
+</section>
+
+<section class="section" id="h-bar">
+  <div class="section-eyebrow">Dashboard</div>
+  <h2 class="section-title">Barras Horizontal — Ranking</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc"><code>indexAxis: 'y'</code>. Primeira barra recebe cor primária sólida, demais com alpha decrescente.</p>
+  <div class="chart-card"><div class="chart-header"><div class="chart-title">Top 6 empresas por volume</div><div class="chart-subtitle">Últimos 30 dias</div></div><div class="chart-body" style="height:230px;"><canvas id="mainHBar"></canvas></div></div>
+</section>
+
+<!-- ════════════════════════════════════
+     SPARKLINE
+════════════════════════════════════ -->
+<section class="section" id="sparkline">
+  <div class="section-eyebrow">Dashboard</div>
+  <h2 class="section-title">Sparkline em Tabela</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">Mini gráfico 90×28px sem eixos. <code>pointRadius: 0</code>, <code>animation: false</code>. Pode ser usado inline em qualquer célula.</p>
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Empresa</th><th style="text-align:right;">Total R$</th><th style="text-align:right;">Variação</th><th>Tendência (7d)</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--warning-600);font-weight:700;">1</td><td>1NIQ COMERCIAL LTDA</td><td style="text-align:right;font-weight:600;">R$ 28.400</td><td style="text-align:right;"><span class="trend-up"><i class="fa-solid fa-arrow-trend-up"></i> +14,2%</span></td><td><canvas id="sp1" width="90" height="28"></canvas></td></tr>
+        <tr><td style="color:var(--neutro-500);font-weight:700;">2</td><td>EMPRESA LEGAL LTDA</td><td style="text-align:right;font-weight:600;">R$ 19.800</td><td style="text-align:right;"><span class="trend-down"><i class="fa-solid fa-arrow-trend-down"></i> −3,1%</span></td><td><canvas id="sp2" width="90" height="28"></canvas></td></tr>
+        <tr><td style="color:var(--secondary-400);font-weight:700;">3</td><td>ABC TRANSPORTES LTDA</td><td style="text-align:right;font-weight:600;">R$ 15.300</td><td style="text-align:right;"><span class="trend-up"><i class="fa-solid fa-arrow-trend-up"></i> +7,8%</span></td><td><canvas id="sp3" width="90" height="28"></canvas></td></tr>
+        <tr><td>4</td><td>GRUPO VALE INDUSTRIA</td><td style="text-align:right;font-weight:600;">R$ 12.100</td><td style="text-align:right;"><span class="trend-down"><i class="fa-solid fa-arrow-trend-down"></i> −8,5%</span></td><td><canvas id="sp4" width="90" height="28"></canvas></td></tr>
+        <tr><td>5</td><td>LOGÍSTICA SUL LTDA</td><td style="text-align:right;font-weight:600;">R$ 8.900</td><td style="text-align:right;"><span class="trend-up"><i class="fa-solid fa-arrow-trend-up"></i> +2,1%</span></td><td><canvas id="sp5" width="90" height="28"></canvas></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     PADRÕES COMPOSTOS
+════════════════════════════════════ -->
+<section class="section" id="padroes-dash">
+  <div class="section-eyebrow">Dashboard</div>
+  <h2 class="section-title">Padrões Compostos</h2>
+  <div class="section-rule"></div>
+
+  <div class="grid-2" style="margin-bottom:20px;">
+    <!-- Ranking list -->
+    <div class="chart-card">
+      <div class="chart-header"><div class="chart-title">Lista de Ranking</div><div class="chart-subtitle">Top empresas por volume</div></div>
+      <div class="rank-list">
+        <div class="rank-item"><span class="rank-pos first">1</span><span class="rank-label">1NIQ COMERCIAL LTDA</span><div class="rank-bar-wrap"><div class="rank-bar" style="width:100%;"></div></div><span class="rank-value">R$ 28.400</span></div>
+        <div class="rank-item"><span class="rank-pos second">2</span><span class="rank-label">EMPRESA LEGAL LTDA</span><div class="rank-bar-wrap"><div class="rank-bar" style="width:70%;"></div></div><span class="rank-value">R$ 19.800</span></div>
+        <div class="rank-item"><span class="rank-pos third">3</span><span class="rank-label">ABC TRANSPORTES LTDA</span><div class="rank-bar-wrap"><div class="rank-bar" style="width:54%;"></div></div><span class="rank-value">R$ 15.300</span></div>
+        <div class="rank-item"><span class="rank-pos">4</span><span class="rank-label">GRUPO VALE INDUSTRIA</span><div class="rank-bar-wrap"><div class="rank-bar" style="width:43%;"></div></div><span class="rank-value">R$ 12.100</span></div>
+        <div class="rank-item"><span class="rank-pos">5</span><span class="rank-label">LOGÍSTICA SUL LTDA</span><div class="rank-bar-wrap"><div class="rank-bar" style="width:31%;"></div></div><span class="rank-value">R$ 8.900</span></div>
+      </div>
+    </div>
+    <!-- Metas -->
+    <div class="chart-card">
+      <div class="chart-header"><div class="chart-title">Metas do mês</div></div>
+      <div>
+        <div class="goal-item"><div class="goal-header"><span class="goal-label">Pedidos processados</span><span class="goal-values">1.247 / 1.200</span></div><div class="goal-track"><div class="goal-fill ok" style="width:100%;"></div></div></div>
+        <div class="goal-item"><div class="goal-header"><span class="goal-label">Valor liberado (R$)</span><span class="goal-values">84.320 / 100.000</span></div><div class="goal-track"><div class="goal-fill primary" style="width:84%;"></div></div></div>
+        <div class="goal-item"><div class="goal-header"><span class="goal-label">Novas empresas</span><span class="goal-values">28 / 60</span></div><div class="goal-track"><div class="goal-fill warning" style="width:47%;"></div></div></div>
+        <div class="goal-item"><div class="goal-header"><span class="goal-label">Inconsistências resolvidas</span><span class="goal-values">34 / 127</span></div><div class="goal-track"><div class="goal-fill danger" style="width:27%;"></div></div></div>
+        <div class="goal-item" style="margin-bottom:0;"><div class="goal-header"><span class="goal-label">NPS de clientes</span><span class="goal-values">72 / 80</span></div><div class="goal-track"><div class="goal-fill primary" style="width:90%;"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Heatmap -->
+    <div class="chart-card">
+      <div class="chart-header"><div class="chart-title">Heatmap de Atividade</div><div class="chart-subtitle">Volume por dia e hora</div></div>
+      <div id="heatmapWrap"></div>
+      <div class="hm-legend">Menos <div style="background:var(--neutro-200);border-radius:2px;"></div><div style="background:var(--primary-100);border-radius:2px;"></div><div style="background:var(--primary-200);border-radius:2px;"></div><div style="background:var(--primary-400);border-radius:2px;"></div><div style="background:var(--primary-500);border-radius:2px;"></div> Mais</div>
+    </div>
+    <!-- Feed de atividade -->
+    <div class="chart-card">
+      <div class="chart-header"><div class="chart-title">Feed de Atividade</div></div>
+      <div class="activity-feed">
+        <div class="activity-item"><div class="activity-dot success"></div><div class="activity-text"><strong>1NIQ LTDA</strong> pedido #20895578 liberado automaticamente.</div><div class="activity-time">08:42</div></div>
+        <div class="activity-item"><div class="activity-dot error"></div><div class="activity-text"><strong>EMPRESA LEGAL</strong> nova inconsistência #331921292. SLA: 06 dias.</div><div class="activity-time">08:31</div></div>
+        <div class="activity-item"><div class="activity-dot warning"></div><div class="activity-text"><strong>ABC TRANSPORTES</strong> 3 pedidos aguardando confirmação.</div><div class="activity-time">07:58</div></div>
+        <div class="activity-item"><div class="activity-dot info"></div><div class="activity-text"><strong>GRUPO VALE</strong> adicionado como novo cliente (Prospecção).</div><div class="activity-time">07:22</div></div>
+        <div class="activity-item"><div class="activity-dot success"></div><div class="activity-text"><strong>LOGÍSTICA SUL</strong> pagamento R$ 8.900 — pedido encerrado.</div><div class="activity-time">06:45</div></div>
+        <div class="activity-item"><div class="activity-dot neutral"></div><div class="activity-text">Relatório mensal exportado por <strong>Isabella Borges</strong>.</div><div class="activity-time">06:12</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estados -->
+  <div style="margin-top:20px;">
+    <div class="sub-label">Estados de carregamento e vazio</div>
+    <div class="grid-3">
+      <div class="chart-card"><div class="chart-header"><div class="chart-title">Carregando…</div></div><div class="chart-body" style="height:120px;"><div class="chart-skeleton"></div></div></div>
+      <div class="chart-card"><div class="chart-header"><div class="chart-title">Sem dados</div></div><div class="chart-body" style="height:120px;"><div class="chart-empty"><i class="fa-solid fa-chart-line"></i><span>Sem dados para o período</span></div></div></div>
+      <div class="chart-card"><div class="chart-header"><div class="chart-title">Com dados ✓</div></div><div class="chart-body" style="height:120px;"><canvas id="stateOk"></canvas></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     PREVIEW DASHBOARD
+════════════════════════════════════ -->
+<section class="section" id="dash-preview">
+  <div class="section-eyebrow">Dashboard</div>
+  <h2 class="section-title">Preview — Dashboard Completa</h2>
+  <div class="section-rule"></div>
+  <p class="section-desc">Composição completa com todos os componentes na estrutura Bootstrap 4 recomendada: Navbar → KPIs → gráficos → tabela + feed lateral.</p>
+  <div style="background:var(--color-bg);border-radius:var(--radius-lg);border:1px solid var(--color-border);overflow:hidden;">
+    <!-- mini navbar -->
+    <div style="background:#fff;border-bottom:1px solid var(--color-border);padding:0 20px;height:44px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:8px;"><div style="width:8px;height:8px;border-radius:50%;background:var(--primary-500);"></div><span style="font-family:var(--font-title);font-weight:700;font-size:14px;">newbe</span></div>
+      <div style="display:flex;gap:20px;font-size:11.5px;color:var(--color-text-secondary);font-family:var(--font-body);"><span>Dashboard</span><span style="color:var(--primary-500);font-weight:600;">Benefícios</span><span>Clientes</span><span>Pedidos</span></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:var(--secondary-400);display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-weight:700;font-size:11px;color:#fff;">IB</div>
+    </div>
+    <div style="padding:18px;">
+      <!-- header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <div><div style="font-family:var(--font-title);font-size:16px;font-weight:700;">Dashboard</div><div style="font-size:10px;color:var(--color-text-muted);font-family:var(--font-body);">16/03/2026 às 09:00</div></div>
+        <div style="display:flex;gap:6px;"><select style="height:26px;font-size:11px;border:1.5px solid var(--color-border);border-radius:var(--radius-sm);padding:0 8px;font-family:var(--font-body);color:var(--color-text-secondary);"><option>Últimos 30 dias</option></select><button style="height:26px;font-size:11px;border:1.5px solid var(--color-border);border-radius:var(--radius-sm);padding:0 10px;font-family:var(--font-body);background:#fff;cursor:pointer;"><i class="fa-solid fa-file-export" style="margin-right:4px;"></i>Exportar</button></div>
+      </div>
+      <!-- kpi mini -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px;">
+        <div class="kpi-card" style="padding:12px 14px;"><div class="kpi-icon-row"><div class="kpi-icon-wrap blue" style="width:32px;height:32px;font-size:13px;"><i class="fa-solid fa-file-invoice-dollar"></i></div><div><span class="kpi-label">Pedidos</span><span class="kpi-value" style="font-size:17px;">1.247</span><span class="kpi-trend up" style="font-size:10px;"><i class="fa-solid fa-arrow-trend-up"></i> +12%</span></div></div></div>
+        <div class="kpi-card" style="padding:12px 14px;"><div class="kpi-icon-row"><div class="kpi-icon-wrap green" style="width:32px;height:32px;font-size:13px;"><i class="fa-solid fa-coins"></i></div><div><span class="kpi-label">Liberado</span><span class="kpi-value" style="font-size:17px;">R$ 84k</span><span class="kpi-trend up" style="font-size:10px;"><i class="fa-solid fa-arrow-trend-up"></i> +8,4%</span></div></div></div>
+        <div class="kpi-card" style="padding:12px 14px;"><div class="kpi-icon-row"><div class="kpi-icon-wrap teal" style="width:32px;height:32px;font-size:13px;"><i class="fa-solid fa-building"></i></div><div><span class="kpi-label">Empresas</span><span class="kpi-value" style="font-size:17px;">2.000</span><span class="kpi-trend flat" style="font-size:10px;"><i class="fa-solid fa-minus"></i> Estável</span></div></div></div>
+        <div class="kpi-card" style="padding:12px 14px;"><div class="kpi-icon-row"><div class="kpi-icon-wrap red" style="width:32px;height:32px;font-size:13px;"><i class="fa-solid fa-triangle-exclamation"></i></div><div><span class="kpi-label">Inconsistências</span><span class="kpi-value" style="font-size:17px;color:var(--error-500);">127</span><span class="kpi-trend down" style="font-size:10px;"><i class="fa-solid fa-arrow-trend-down"></i> −5</span></div></div></div>
+      </div>
+      <!-- charts mini -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:10px;">
+        <div class="chart-card" style="padding:12px 14px;"><div class="chart-header"><div><div class="chart-title" style="font-size:12px;">Evolução de pedidos</div></div><div class="chart-actions"><button class="chart-period-btn active" style="font-size:10px;padding:2px 7px;">30d</button><button class="chart-period-btn" style="font-size:10px;padding:2px 7px;">90d</button></div></div><div style="position:relative;height:130px;"><canvas id="pvLine"></canvas></div></div>
+        <div class="chart-card" style="padding:12px 14px;"><div class="chart-header"><div class="chart-title" style="font-size:12px;">Status dos pedidos</div></div><div style="position:relative;height:130px;"><canvas id="pvDonut"></canvas></div></div>
+      </div>
+      <!-- bottom mini -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;">
+        <div class="chart-card" style="padding:12px 14px;"><div class="chart-title" style="font-size:12px;margin-bottom:10px;">Top empresas</div><div class="rank-list">
+          <div class="rank-item"><span class="rank-pos first" style="font-size:10px;">1</span><span class="rank-label" style="font-size:11px;">1NIQ COMERCIAL LTDA</span><div class="rank-bar-wrap" style="width:56px;"><div class="rank-bar" style="width:100%;"></div></div><span class="rank-value" style="font-size:11px;">R$ 28.400</span></div>
+          <div class="rank-item"><span class="rank-pos second" style="font-size:10px;">2</span><span class="rank-label" style="font-size:11px;">EMPRESA LEGAL LTDA</span><div class="rank-bar-wrap" style="width:56px;"><div class="rank-bar" style="width:70%;"></div></div><span class="rank-value" style="font-size:11px;">R$ 19.800</span></div>
+          <div class="rank-item"><span class="rank-pos third" style="font-size:10px;">3</span><span class="rank-label" style="font-size:11px;">ABC TRANSPORTES LTDA</span><div class="rank-bar-wrap" style="width:56px;"><div class="rank-bar" style="width:54%;"></div></div><span class="rank-value" style="font-size:11px;">R$ 15.300</span></div>
+        </div></div>
+        <div class="chart-card" style="padding:12px 14px;"><div class="chart-title" style="font-size:12px;margin-bottom:8px;">Atividade recente</div><div class="activity-feed">
+          <div class="activity-item" style="padding:5px 0;"><div class="activity-dot success"></div><div class="activity-text" style="font-size:11px;"><strong>1NIQ</strong> — pedido liberado</div><div class="activity-time">08:42</div></div>
+          <div class="activity-item" style="padding:5px 0;"><div class="activity-dot error"></div><div class="activity-text" style="font-size:11px;"><strong>LEGAL</strong> — inconsistência SLA 06d</div><div class="activity-time">08:31</div></div>
+          <div class="activity-item" style="padding:5px 0;border:none;"><div class="activity-dot info"></div><div class="activity-text" style="font-size:11px;"><strong>GRUPO VALE</strong> — novo cliente</div><div class="activity-time">07:22</div></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+</div><!-- /ds-wrap -->
+
+<script>
+// ── CHART DEFAULTS
+Chart.defaults.font.family="'Montserrat',sans-serif";
+Chart.defaults.font.size=11;
+Chart.defaults.color='#595959';
+Chart.defaults.plugins.legend.labels.usePointStyle=true;
+Chart.defaults.plugins.legend.labels.boxWidth=10;
+Chart.defaults.plugins.legend.labels.padding=14;
+Chart.defaults.plugins.tooltip.backgroundColor='#1A1A1A';
+Chart.defaults.plugins.tooltip.padding=10;
+Chart.defaults.plugins.tooltip.cornerRadius=6;
+Chart.defaults.scale.grid.color='#F0F0F0';
+Chart.defaults.scale.grid.borderColor='#D9D9D9';
+Chart.defaults.scale.ticks.color='#8C8C8C';
+
+// ── COLORS
+const C={primary:'#E91E63',blue:'#2196F3',green:'#4CAF50',amber:'#F9A825',teal:'#00897B',orange:'#F04E00',cyan:'#00ACC1',purple:'#7B1FA2'};
+const a=(hex,al)=>{const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return `rgba(${r},${g},${b},${al})`;};
+
+// ── SPARKLINE
+function mkSpark(id,data,color){
+  const el=document.getElementById(id); if(!el)return;
+  new Chart(el,{type:'line',data:{labels:data.map(()=>''),datasets:[{data,borderColor:color,backgroundColor:a(color,.10),borderWidth:1.5,pointRadius:0,tension:0.4,fill:true}]},options:{responsive:false,animation:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}});
+}
+// KPI sparklines
+mkSpark('kpiSpark1',[18,22,19,26,24,30,28,34,32,38],C.primary);
+mkSpark('kpiSpark2',[14,18,20,17,22,19,21,18,20,16],C.blue);
+mkSpark('kpiSpark3',[5,4.5,4,3.8,3.5,3.2,3.0,3.2,3.1,3.2],C.teal);
+mkSpark('kpiSpark4',[820,840,810,850,830,845,828,832,840,834],C.amber);
+// Table sparklines
+mkSpark('sp1',[18,22,26,24,30,28,34],C.primary);
+mkSpark('sp2',[22,20,21,18,19,17,18],C.orange);
+mkSpark('sp3',[12,14,15,14,16,17,18],C.green);
+mkSpark('sp4',[18,17,15,14,12,11,10],C.primary);
+mkSpark('sp5',[14,15,14,16,15,16,17],C.blue);
+
+// ── TABS
+const tabLabels=['Empresas','Grupos','Funcionários'];
+const tabDescs=['tabela de empresas, filtros e painel de ações','lista de grupos de benefícios','lista de funcionários vinculados'];
+function switchTab(idx){
+  document.querySelectorAll('#tabsDemo .tab').forEach((t,i)=>{
+    t.classList.toggle('active-tab',i===idx);
+  });
+  document.getElementById('tabContent').innerHTML=`<span style="font-size:12.5px;color:var(--color-text-secondary);">Conteúdo da aba <strong>${tabLabels[idx]}</strong> — ${tabDescs[idx]}.</span>`;
+}
+
+// ── LINE CHART
+const MONTHS=['Jan','Fev','Mar','Abr','Mai','Jun'];
+const LD={'7d':{labels:['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],d1:[38,52,41,66,58,72,64],d2:[28,40,32,55,44,60,53]},'30d':{labels:MONTHS,d1:[145,198,162,240,198,275],d2:[110,152,128,195,154,218]},'90d':{labels:['T1','T2','T3'],d1:[505,635,473],d2:[388,516,380]}};
+let lineChart=null;
+function buildLine(p='30d'){
+  if(lineChart)lineChart.destroy();
+  const d=LD[p];
+  lineChart=new Chart(document.getElementById('mainLine'),{type:'line',data:{labels:d.labels,datasets:[
+    {label:'Liberados',data:d.d1,borderColor:C.primary,backgroundColor:a(C.primary,.10),borderWidth:2,pointRadius:3,pointHoverRadius:6,tension:0.4,fill:true},
+    {label:'Processados',data:d.d2,borderColor:C.blue,backgroundColor:a(C.blue,.08),borderWidth:2,pointRadius:3,pointHoverRadius:6,tension:0.4,fill:true,borderDash:[5,3]}
+  ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top',align:'end'}},scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}});
+}
+buildLine();
+function setLineP(btn,p){document.querySelectorAll('#linha .chart-period-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildLine(p);}
+
+// ── BAR CHARTS
+new Chart(document.getElementById('mainBar1'),{type:'bar',data:{labels:MONTHS,datasets:[{label:'Pedidos',data:[145,198,162,240,198,275],backgroundColor:a(C.primary,.80),borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}});
+new Chart(document.getElementById('mainBar2'),{type:'bar',data:{labels:MONTHS,datasets:[{label:'Liberado',data:[98,142,110,172,138,204],backgroundColor:a(C.green,.80),borderRadius:4,borderSkipped:false},{label:'Cancelado',data:[18,24,19,30,22,28],backgroundColor:a(C.primary,.80),borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',align:'end'}},scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}});
+
+// ── DONUT plugin
+const ctPlugin={id:'ct',beforeDraw(chart){if(!chart.config.options._ct)return;const{ctx,chartArea:{left,right,top,bottom}}=chart;const cx=(left+right)/2,cy=(top+bottom)/2;ctx.save();ctx.textAlign='center';ctx.textBaseline='middle';ctx.font="bold 20px 'Quicksand'";ctx.fillStyle='#1A1A1A';ctx.fillText(chart.config.options._ct.v,cx,cy-7);ctx.font="10px 'Montserrat'";ctx.fillStyle='#8C8C8C';ctx.fillText(chart.config.options._ct.l,cx,cy+10);ctx.restore();}};
+Chart.register(ctPlugin);
+
+// ── DONUTS
+new Chart(document.getElementById('mainDonut1'),{type:'doughnut',data:{labels:['Liberado','Pago','Processando','A Confirmar','Cancelado'],datasets:[{data:[480,290,175,132,170],backgroundColor:[C.green,C.blue,C.amber,'#8C8C8C',C.primary],borderWidth:2,borderColor:'#fff',hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',_ct:{v:'1.247',l:'pedidos'},plugins:{legend:{position:'right',labels:{padding:14}}}}});
+new Chart(document.getElementById('mainDonut2'),{type:'doughnut',data:{labels:['VT','VR','VA','VC','CP'],datasets:[{data:[14820,11560,8610,3200,1940],backgroundColor:['#EF5350','#00BFA5','#2196F3','#AB47BC','#FF7733'],borderWidth:2,borderColor:'#fff',hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{position:'right',labels:{padding:14}}}}});
+
+// ── H BAR
+const hLabels=['1NIQ COMERCIAL','EMPRESA LEGAL','ABC TRANSPORTES','GRUPO VALE','LOGÍSTICA SUL','TECH SOLUÇÕES'];
+const hData=[28400,19800,15300,12100,8900,6200];
+new Chart(document.getElementById('mainHBar'),{type:'bar',data:{labels:hLabels,datasets:[{data:hData,backgroundColor:hData.map((_,i)=>i===0?C.primary:a(C.primary,.38+i*-.04)),borderRadius:4,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' R$ '+Number(c.raw).toLocaleString('pt-BR')}}},scales:{x:{beginAtZero:true,grid:{color:'#F0F0F0'},ticks:{callback:v=>'R$ '+Number(v/1000).toFixed(0)+'k'}},y:{grid:{display:false}}}}});
+
+// ── HEATMAP
+(function(){
+  const days=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+  const hours=['06h','09h','12h','15h','18h','21h'];
+  const raw=[[5,12,28,42,38,18,8],[3,10,32,55,48,22,6],[4,8,40,65,58,25,5],[2,6,22,44,40,20,4],[1,4,15,30,28,12,3],[0,2,8,14,12,6,2]];
+  const max=Math.max(...raw.flat());
+  const hl=v=>{const r=v/max;return r===0?'hm-0':r<.25?'hm-1':r<.5?'hm-2':r<.75?'hm-3':'hm-4';};
+  let h='<div class="heatmap"><div class="hm-labels-row"><div class="hm-corner"></div>';
+  days.forEach(d=>h+=`<div class="hm-col-lbl">${d}</div>`);
+  h+='</div>';
+  hours.forEach((hr,ri)=>{
+    h+=`<div class="hm-row"><div class="hm-row-lbl">${hr}</div>`;
+    raw[ri].forEach(v=>h+=`<div class="hm-cell ${hl(v)}" title="${v} pedidos"></div>`);
+    h+='</div>';
+  });
+  h+='</div>';
+  document.getElementById('heatmapWrap').innerHTML=h;
+})();
+
+// ── STATE OK chart
+new Chart(document.getElementById('stateOk'),{type:'line',data:{labels:['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],datasets:[{data:[22,28,24,34,30,38,35],borderColor:C.primary,backgroundColor:a(C.primary,.10),borderWidth:2,pointRadius:2,tension:0.4,fill:true}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}});
+
+// ── PREVIEW CHARTS
+new Chart(document.getElementById('pvLine'),{type:'line',data:{labels:MONTHS,datasets:[{data:[145,198,162,240,198,275],borderColor:C.primary,backgroundColor:a(C.primary,.10),borderWidth:2,pointRadius:2,tension:0.4,fill:true}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}});
+new Chart(document.getElementById('pvDonut'),{type:'doughnut',data:{labels:['Liberado','Pago','Processando','Cancelado'],datasets:[{data:[480,290,175,170],backgroundColor:[C.green,C.blue,C.amber,C.primary],borderWidth:2,borderColor:'#fff',hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{position:'right',labels:{padding:8,usePointStyle:true,boxWidth:8,font:{size:10}}}}}});
+
+// ── SIDEBAR SCROLL SPY
+const secs=document.querySelectorAll('.section[id]');
+const links=document.querySelectorAll('.sidebar a[href^="#"]');
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+e.target.id)l.classList.add('active');});
+    }
+  });
+},{rootMargin:'-25% 0px -65% 0px'});
+secs.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>
