@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEWBE Lead Hub — CONARH 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="assets/ds/ds.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="brand-dot"></div>NEWBE Lead Hub</div>
+    <div class="topbar-actions">
+      <span class="action-pill"><i class="fa-solid fa-calendar-days"></i> 22 jun</span>
+      <button class="mobile-menu-button" id="mobileMenuButton" aria-label="Abrir menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <div class="topbar-desc" id="activeEventLabel">CONARH 2026 • São Paulo</div>
+  </header>
+
+  <div class="app-wrap">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-group">Navegação</div>
+      <button class="nav-link active" data-view="dashboard"><i class="fa-solid fa-chart-simple"></i>Dashboard</button>
+      <button class="nav-link" data-view="precap"><i class="fa-solid fa-handshake-angle"></i>Pré-Captação</button>
+      <button class="nav-link" data-view="capture"><i class="fa-solid fa-rocket"></i>Captação Rápida</button>
+      <button class="nav-link" data-view="management"><i class="fa-solid fa-table-list"></i>Gestão de Leads</button>
+      <button class="nav-link" data-view="team"><i class="fa-solid fa-users"></i>Equipe Comercial</button>
+      <button class="nav-link" data-view="events"><i class="fa-solid fa-calendar-days"></i>Eventos</button>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <main class="main">
+      <section class="section screen active" id="dashboard">
+        <div class="section-eyebrow">Visão Geral</div>
+        <h2 class="section-title">Painel Operacional</h2>
+        <div class="section-rule"></div>
+        <p class="section-desc">Indicadores de leads, agenda de reuniões e conversão para o evento CONARH 2026. Use este painel para monitorar o fluxo de pré-captação e captação em tempo real.</p>
+
+        <div class="hero-stats">
+          <div class="stat-card"><span class="stat-label">Total de Leads</span><span class="stat-value">298</span><span class="stat-note">Capturados no evento</span></div>
+          <div class="stat-card"><span class="stat-label">Leads Qualificados</span><span class="stat-value">184</span><span class="stat-note">Em pipeline comercial</span></div>
+          <div class="stat-card"><span class="stat-label">Reuniões Agendadas</span><span class="stat-value">76</span><span class="stat-note">Próximas no evento</span></div>
+          <div class="stat-card"><span class="stat-label">Taxa de Conversão</span><span class="stat-value">42%</span><span class="stat-note">Leads → reunião</span></div>
+        </div>
+
+        <div class="panel-row">
+          <div class="chart-card">
+            <div class="chart-header"><div><div class="chart-title">Leads no evento</div><div class="chart-subtitle">Volume semanal</div></div></div>
+            <div class="chart-body"><canvas id="chartActivity"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header"><div><div class="chart-title">Interesse por status</div><div class="chart-subtitle">Leads quentes, mornos e frios</div></div></div>
+            <div class="chart-body"><canvas id="chartStatus"></canvas></div>
+          </div>
+        </div>
+
+        <div class="status-row">
+          <div class="status-tile"><div class="status-title"><span>Status</span><span class="badge badge-novo">Novo</span></div><div class="stat-value">112</div><div class="stat-note">Leads aguardando qualificação</div></div>
+          <div class="status-tile"><div class="status-title"><span>Qualificados</span><span class="badge badge-qualificado">Qualificado</span></div><div class="stat-value">78</div><div class="stat-note">SDR em validação</div></div>
+          <div class="status-tile"><div class="status-title"><span>Agendados</span><span class="badge badge-agendado">Agendado</span></div><div class="stat-value">76</div><div class="stat-note">Distribuição automática</div></div>
+          <div class="status-tile"><div class="status-title"><span>Em Atendimento</span><span class="badge badge-atendimento">Atendimento</span></div><div class="stat-value">32</div><div class="stat-note">Executivos trabalhando</div></div>
+        </div>
+      </section>
+
+      <section class="section screen" id="precap">
+        <div class="section-eyebrow">Processo</div>
+        <h2 class="section-title">Pré-Captação de Leads</h2>
+        <div class="section-rule"></div>
+        <p class="section-desc">Formulário completo para cadastro de leads qualificados com agendamento inteligente e distribuição automática para executivos.</p>
+
+        <form id="precapForm" class="form-section">
+          <div class="form-card">
+            <div class="card">
+              <div class="sub-label">Dados da Empresa</div>
+              <div class="grid-2" style="gap:16px;">
+                <div class="field"><label class="field-label">Empresa *</label><input class="input" type="text" placeholder="Nome da empresa" required></div>
+                <div class="field"><label class="field-label">CNPJ *</label><input class="input" type="text" placeholder="00.000.000/0000-00" required></div>
+                <div class="field"><label class="field-label">Nº de Colaboradores *</label><select class="select"><option>Selecione</option><option>Até 50</option><option>51 a 100</option><option>101 a 500</option><option>501 a 1.000</option><option>1.001 a 5.000</option><option>Acima de 5.000</option></select></div>
+                <div class="field"><label class="field-label">Evento</label><input class="input current-event" type="text" value="CONARH 2026" disabled></div>
+              </div>
+            </div>
+
+            <div class="card" style="margin-top:18px;">
+              <div class="sub-label">Dados do Contato</div>
+              <div class="grid-2" style="gap:16px;">
+                <div class="field"><label class="field-label">Nome do Funcionário *</label><input class="input" type="text" placeholder="Nome completo" required></div>
+                <div class="field"><label class="field-label">Cargo</label><input class="input" type="text" placeholder="Cargo / posição"></div>
+                <div class="field"><label class="field-label">Responsável da Área *</label><input class="input" type="text" placeholder="Nome do responsável" required></div>
+                <div class="field"><label class="field-label">Telefone *</label><input class="input" type="tel" placeholder="(00) 90000-0000" required></div>
+              </div>
+              <div class="grid-2" style="gap:16px;margin-top:14px;">
+                <div class="field"><label class="field-label">E-mail *</label><input class="input" type="email" placeholder="email@empresa.com" required></div>
+                <div class="field"><label class="field-label">Solução Atual</label><select class="select"><option>Selecione</option><option>Flash</option><option>Caju</option><option>Swile</option><option>Alelo</option><option>Ticket</option><option>VR</option><option>Sodexo</option><option>Outro</option></select></div>
+              </div>
+            </div>
+
+            <div class="card" style="margin-top:18px;">
+              <div class="sub-label">Qualificação</div>
+              <div class="grid-2" style="gap:16px;">
+                <div class="field"><label class="field-label">Interesse</label><select class="select"><option>Selecione</option><option>Quente</option><option>Morno</option><option>Frio</option></select></div>
+                <div class="field"><label class="field-label">Momento da Contratação</label><select class="select"><option>Selecione</option><option>Imediato</option><option>Até 30 dias</option><option>Até 90 dias</option><option>Até 6 meses</option><option>Sem previsão</option></select></div>
+              </div>
+              <div class="field" style="margin-top:14px;"><label class="field-label">Soluções Apresentadas</label><textarea placeholder="Vale Transporte, Multibenefícios, Crédito Smart..." rows="3"></textarea></div>
+            </div>
+
+            <div class="card" style="margin-top:18px;">
+              <div class="sub-label">Agendamento Inteligente</div>
+              <div class="grid-2" style="gap:16px;">
+                <div class="field"><label class="field-label">Dia</label><input class="input" type="date"></div>
+                <div class="field"><label class="field-label">Horário</label><input class="input" type="time"></div>
+              </div>
+              <div class="field" style="margin-top:14px;"><label class="field-label">Executivo atribuído</label><input class="input" type="text" value="Distribuição automática" disabled></div>
+            </div>
+
+            <div class="form-actions" style="justify-content:flex-end;">
+              <button type="reset" class="btn btn-outline-primary">Limpar</button>
+              <button type="submit" class="btn btn-primary">Salvar Lead</button>
+            </div>
+          </div>
+
+          <div class="card lead-summary">
+            <div class="sub-label">Dados Internos</div>
+            <div class="field"><label class="field-label">Colaborador NEWBE</label><input class="input" type="text" value="Isabela Borges" disabled></div>
+            <div class="field"><label class="field-label">Próximo horário disponível</label><input class="input" type="text" value="22/06/2026 • 14:00" disabled></div>
+            <div class="field"><label class="field-label">Critério de distribuição</label><input class="input" type="text" value="Round Robin balanceado" disabled></div>
+            <div class="field"><label class="field-label">Observação</label><textarea rows="4" placeholder="Notas internas para o time comercial"></textarea></div>
+          </div>
+        </form>
+      </section>
+
+      <section class="section screen" id="capture">
+        <div class="section-eyebrow">Processo</div>
+        <h2 class="section-title">Captação Rápida de Leads</h2>
+        <div class="section-rule"></div>
+        <p class="section-desc">Formulário simplificado para registro de lead durante o evento. Permite cadastro rápido sem necessidade de agendamento.</p>
+
+        <form id="captureForm" class="form-section">
+          <div class="form-card">
+            <div class="card">
+              <div class="sub-label">Dados Básicos</div>
+              <div class="grid-2" style="gap:16px;">
+                <div class="field"><label class="field-label">Empresa *</label><input class="input" type="text" placeholder="Nome da empresa" required></div>
+                <div class="field"><label class="field-label">CNPJ *</label><input class="input" type="text" placeholder="00.000.000/0000-00" required></div>
+              </div>
+              <div class="grid-2" style="gap:16px; margin-top:14px;">
+                <div class="field"><label class="field-label">Nome do Contato *</label><input class="input" type="text" placeholder="Nome completo" required></div>
+                <div class="field"><label class="field-label">Telefone *</label><input class="input" type="tel" placeholder="(00) 90000-0000" required></div>
+              </div>
+              <div class="field" style="margin-top:14px;"><label class="field-label">E-mail *</label><input class="input" type="email" placeholder="email@empresa.com" required></div>
+            </div>
+
+            <div class="card" style="margin-top:18px;">
+              <div class="sub-label">Qualificação Rápida</div>
+              <div class="grid-2" style="gap:16px;">
+                <div class="field"><label class="field-label">Tipo de Lead</label><select class="select"><option>Pré-Captação</option><option>Captação</option></select></div>
+                <div class="field"><label class="field-label">Status Inicial</label><select class="select"><option>Novo</option><option>Qualificado</option></select></div>
+              </div>
+              <div class="field" style="margin-top:14px;"><label class="field-label">Comentário</label><textarea rows="4" placeholder="Notas rápidas do lead"></textarea></div>
+            </div>
+
+            <div class="form-actions" style="justify-content:flex-end;">
+              <button type="reset" class="btn btn-outline-primary">Limpar</button>
+              <button type="submit" class="btn btn-primary">Registrar Lead</button>
+            </div>
+          </div>
+
+          <div class="card lead-summary">
+            <div class="sub-label">Info Rápida</div>
+            <div class="field"><label class="field-label">Evento</label><input class="input current-event" type="text" value="CONARH 2026" disabled></div>
+            <div class="field"><label class="field-label">Cadastro automático</label><input class="input" type="text" value="Data e hora do sistema" disabled></div>
+            <div class="field"><label class="field-label">Atribuição</label><input class="input" type="text" value="Sem agendamento" disabled></div>
+          </div>
+        </form>
+      </section>
+
+      <section class="section screen" id="team">
+        <div class="section-eyebrow">Admin</div>
+        <h2 class="section-title">Equipe Comercial</h2>
+        <div class="section-rule"></div>
+        <p class="section-desc">Cadastre e gerencie os executivos que poderão receber leads via distribuição inteligente.</p>
+
+        <form id="teamForm" class="form-section">
+          <div class="form-card">
+            <div class="card">
+              <div class="sub-label">Novo Executivo</div>
+              <div class="grid-2" style="gap:16px;">
+                <div class="field"><label class="field-label">Nome</label><input class="input" type="text" id="teamName" placeholder="Nome do executivo" required></div>
+                <div class="field"><label class="field-label">Cargo</label><input class="input" type="text" id="teamRole" placeholder="Cargo ou função" required></div>
+              </div>
+              <div class="grid-2" style="gap:16px; margin-top:14px;">
+                <div class="field"><label class="field-label">Tipo de Lead</label><select class="select" id="teamType"><option>Pré-Captação</option><option>Captação</option><option>Ambos</option></select></div>
+                <div class="field"><label class="field-label">Status</label><select class="select" id="teamStatus"><option>Ativo</option><option>Inativo</option></select></div>
+              </div>
+              <div class="field" style="margin-top:14px;"><label class="field-label">Observação</label><textarea id="teamNote" rows="4" placeholder="Notas sobre o executivo"></textarea></div>
+            </div>
+
+            <div class="form-actions" style="justify-content:flex-end;">
+              <button type="reset" class="btn btn-outline-primary">Limpar</button>
+              <button type="submit" class="btn btn-primary">Cadastrar Executivo</button>
+            </div>
+          </div>
+
+          <div class="card lead-summary">
+            <div class="sub-label">Executivos Cadastrados</div>
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th>Cargo</th>
+                    <th>Tipo</th>
+                    <th>Status</th>
+                    <th>Observação</th>
+                  </tr>
+                </thead>
+                <tbody id="teamTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="section screen" id="events">
+        <div class="section-eyebrow">Admin</div>
+        <h2 class="section-title">Eventos</h2>
+        <div class="section-rule"></div>
+        <p class="section-desc">Cadastre novos eventos e selecione qual estará ativo para captação e pré-captação.</p>
+
+        <form id="eventForm" class="form-section">
+          <div class="form-card">
+            <div class="card">
+              <div class="sub-label">Novo Evento</div>
+              <div class="grid-2" style="gap:16px;">
+                <div class="field"><label class="field-label">Nome do Evento</label><input class="input" type="text" id="eventName" placeholder="Nome do evento" required></div>
+                <div class="field"><label class="field-label">Local</label><input class="input" type="text" id="eventLocation" placeholder="Cidade / arena" required></div>
+              </div>
+              <div class="grid-2" style="gap:16px; margin-top:14px;">
+                <div class="field"><label class="field-label">Data Início</label><input class="input" type="date" id="eventStart" required></div>
+                <div class="field"><label class="field-label">Data Fim</label><input class="input" type="date" id="eventEnd" required></div>
+              </div>
+              <div class="field" style="margin-top:14px;"><label class="field-label">Status</label><select class="select" id="eventStatus"><option>Ativo</option><option>Inativo</option></select></div>
+            </div>
+
+            <div class="form-actions" style="justify-content:flex-end;">
+              <button type="reset" class="btn btn-outline-primary">Limpar</button>
+              <button type="submit" class="btn btn-primary">Cadastrar Evento</button>
+            </div>
+          </div>
+
+          <div class="card lead-summary">
+            <div class="sub-label">Eventos Cadastrados</div>
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Evento</th>
+                    <th>Local</th>
+                    <th>Início</th>
+                    <th>Fim</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                  </tr>
+                </thead>
+                <tbody id="eventTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="section screen" id="management">
+        <div class="section-eyebrow">Operação</div>
+        <h2 class="section-title">Gestão de Leads</h2>
+        <div class="section-rule"></div>
+        <p class="section-desc">Filtro por status e tabela de leads com ações rápidas. Ideal para acompanhar evoluções e identificar oportunidades.</p>
+
+        <div class="card">
+          <div class="filter-row">
+            <button class="badge badge-chip active" data-status="all">Todos</button>
+            <button class="badge badge-chip" data-status="Novo">Novo</button>
+            <button class="badge badge-chip" data-status="Qualificado">Qualificado</button>
+            <button class="badge badge-chip" data-status="Agendado">Agendado</button>
+            <button class="badge badge-chip" data-status="Em Atendimento">Atendimento</button>
+          </div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Empresa</th>
+                  <th>Contato</th>
+                  <th>Tipo</th>
+                  <th>Interesse</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th>Executivo</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="leadTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>
