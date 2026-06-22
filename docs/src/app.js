@@ -101,12 +101,26 @@ function getActiveEvent() {
   return activeEvent;
 }
 
+function formatEventDateRange(event) {
+  if (!event || !event.start || !event.end) return '';
+  const start = new Date(event.start);
+  const end = new Date(event.end);
+  const options = { day: '2-digit', month: 'short' };
+  const startLabel = start.toLocaleDateString('pt-BR', options);
+  const endLabel = end.toLocaleDateString('pt-BR', options);
+  return `${startLabel} — ${endLabel}`;
+}
+
 function updateActiveEventDisplay() {
   const event = getActiveEvent();
   if (!event) return;
   const labelText = `${event.name} - ${event.location}`;
   activeEventLabel && (activeEventLabel.textContent = labelText);
   currentEventInputs.forEach((input) => { input.value = event.name; });
+  const eventDatePill = document.getElementById('eventDatePill');
+  if (eventDatePill) {
+    eventDatePill.textContent = `${formatEventDateRange(event)}`;
+  }
 }
 
 function setActiveEvent(eventName) {
