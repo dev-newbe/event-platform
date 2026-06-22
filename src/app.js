@@ -128,18 +128,32 @@ function renderEventTable() {
   eventTableBody.innerHTML = '';
   events.forEach((event) => {
     const row = document.createElement('tr');
+    const actionButton = event.active 
+      ? `<button class="btn btn-primary" style="background: var(--primary-500); color: #fff;" data-event="${event.name}" data-action="deactivate">Desativar</button>` 
+      : `<button class="btn btn-outline-primary" data-event="${event.name}" data-action="activate">Ativar</button>`;
+    const badge = event.active ? '<span class="badge badge-qualificado">Evento Ativo</span>' : '<span class="badge" style="background: var(--neutro-200); color: var(--neutro-600);">Inativo</span>';
     row.innerHTML = `
       <td><strong>${event.name}</strong></td>
       <td>${event.location}</td>
       <td>${event.start}</td>
       <td>${event.end}</td>
-      <td>${event.status}</td>
-      <td>${event.active ? '<span class="badge badge-qualificado">Atual</span>' : `<button class="btn btn-outline-primary" data-event="${event.name}">Ativar</button>`}</td>
+      <td>${badge}</td>
+      <td>${actionButton}</td>
     `;
     eventTableBody.appendChild(row);
   });
   eventTableBody.querySelectorAll('button[data-event]').forEach((button) => {
-    button.addEventListener('click', () => setActiveEvent(button.dataset.event));
+    button.addEventListener('click', () => {
+      const eventName = button.dataset.event;
+      const action = button.dataset.action;
+      if (action === 'deactivate') {
+        events.forEach((e) => { e.active = false; e.status = 'Inativo'; });
+        renderEventTable();
+        updateActiveEventDisplay();
+      } else {
+        setActiveEvent(eventName);
+      }
+    });
   });
 }
 
